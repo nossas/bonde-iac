@@ -1,0 +1,5 @@
+config:
+  aws:region: us-east-1
+  infra-eks:environment: sandbox
+  apps:bonde-database-url:
+    secure: AAABAJt6VWGgSqdyVZNMMUriisWUF6GLUECJ68Td6U1i6P0DMCGl4qZfSK36QWvnxexqXtaek+IVZjTxbYIJg/EvjX32TF+5eD2GRlGYyYred5M715v7iUDy5Jt0zpkoRrLDaoBf+5Ymb3ExPmpkvejucTcyCfXwzqbZD6C0FoeYEltw7une3R4=

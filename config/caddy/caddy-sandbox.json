@@ -10,9 +10,12 @@
                         {
                             "handle": [
                                 {
-                                    "handler": "static_response",
-                                    "status_code": 200,
-                                    "body": "Host: {http.request.host} - HTTPS funcionando"
+                                    "handler": "reverse_proxy",
+                                    "upstreams": [
+                                        {
+                                            "dial": "public:80"
+                                        }
+                                    ]
                                 }
                             ]
                         }

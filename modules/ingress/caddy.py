@@ -25,6 +25,7 @@ class CaddyStack(pulumi.ComponentResource):
         caddyfile_path = os.path.join(
             os.path.dirname(__file__),
             "..",
+            "..",
             "config",
             "caddy",
             f"caddy-{environment}.json",
@@ -45,16 +46,6 @@ class CaddyStack(pulumi.ComponentResource):
                 f"⚠️  Caddyfile não encontrado, usando fallback: {caddyfile_path}"
             )
 
-        pulumi.log.info(f"caddy.json: {caddyfile_content}")
-        # ConfigMap
-        # self.config_map = k8s.core.v1.ConfigMap(
-        #     f"{name}-config",
-        #     metadata=k8s.meta.v1.ObjectMetaArgs(
-        #         name=f"{name}-config", namespace=namespace
-        #     ),
-        #     data={"Caddyfile": caddyfile_content},
-        #     opts=pulumi.ResourceOptions(provider=k8s_provider, parent=self),
-        # )
         self.config_map = k8s.core.v1.ConfigMap(
             f"{name}-config",
             metadata=k8s.meta.v1.ObjectMetaArgs(

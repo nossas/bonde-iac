@@ -3,3 +3,9 @@ config:
   infra-eks:environment: sandbox
   apps:bonde-database-url:
     secure: AAABAJt6VWGgSqdyVZNMMUriisWUF6GLUECJ68Td6U1i6P0DMCGl4qZfSK36QWvnxexqXtaek+IVZjTxbYIJg/EvjX32TF+5eD2GRlGYyYred5M715v7iUDy5Jt0zpkoRrLDaoBf+5Ymb3ExPmpkvejucTcyCfXwzqbZD6C0FoeYEltw7une3R4=
+  apps:pagarme-key:
+    secure: AAABAAWYISiccgwp1Q3vmsLImPWtcv+bmjWEOEsRdBnxoixc7Xng/e3pqaoX1tCso/mvog/puV5numEq1X1yrnM+zp/NjA==
+  apps:hasura-secret:
+    secure: AAABAPmzm5ll054Pipi4Jv46q7RZzkySxyoLSwWfiBAnpEPgCE41InOYIy76560gVBDo4E0+5CcG5+FqUSsc+Q==
+  apps:action-secret:
+    secure: AAABAKg/a+sXdA/p/zqfBzkCG/OMDXK6bNVGDLWjh+J81tD8Xk3wibW2wAHH/06kr9qYal31owg6CeMjZGZ3O+kzwQA=

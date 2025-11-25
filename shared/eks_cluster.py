@@ -176,14 +176,6 @@ users:
             kubeconfig=self.kubeconfig,
             opts=pulumi.ResourceOptions(parent=self),
         )
-        
-        
-        # self.alb_controller = install_alb_controller(self.eks_cluster, self.provider)
-        # Instalar ALB Controller (versão simplificada)
-        # self.alb_controller = install_alb_controller(
-        #     self.eks_cluster.name,  # Apenas o nome do cluster
-        #     self.provider           # Provider com kubeconfig
-        # )
 
         self.register_outputs(
             {

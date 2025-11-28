@@ -1,10 +1,14 @@
-name: Pulumi
+name: Pulumi (Pull Request)
 on:
   - pull_request
 jobs:
   preview:
-    name: Preview
+    name: "Preview all stacks"
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        stack: [shared, sandbox]
+
     steps:
       - uses: actions/checkout@v4
       
@@ -26,11 +30,11 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-      - name: "Preview changes"
+      - name: "Preview ${{ matrix.stack }} changes"
         uses: pulumi/actions@v6
         with:
           command: preview
-          stack-name: nossas/infra-eks/sandbox # When using an individual account, only use stack-name.
+          stack-name: nossas/infra-eks/${{ matrix.stack }}
           comment-on-pr: true
           github-token: ${{ secrets.GITHUB_TOKEN }}
         env:

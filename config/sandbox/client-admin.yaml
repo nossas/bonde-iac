@@ -4,7 +4,7 @@ namespace: "sandbox"
 replicas: 1
 container:
   # FIXME: Váriaveis de ambiente não são boas opções para projetos client-side com React e NodeJS
-  image: "nossas/bonde-clients:latest"
+  image: "nossas/bonde-clients:hotfix-build-image-to-sandbox"
   command: 
     - "pnpm"
     - "--filter"

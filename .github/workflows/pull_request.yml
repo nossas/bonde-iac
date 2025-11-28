@@ -31,5 +31,7 @@ jobs:
         with:
           command: preview
           stack-name: nossas/infra-eks/sandbox # When using an individual account, only use stack-name.
+          comment-on-pr: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}

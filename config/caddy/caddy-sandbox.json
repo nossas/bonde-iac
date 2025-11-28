@@ -4,9 +4,48 @@
             "servers": {
                 "https": {
                     "listen": [
+                        ":80",
                         ":443"
                     ],
                     "routes": [
+                        {
+                            "match": [
+                                {
+                                    "host": [
+                                        "api-graphql.sandbox.bonde.org"
+                                    ]
+                                }
+                            ],
+                            "handle": [
+                                {
+                                    "handler": "reverse_proxy",
+                                    "upstreams": [
+                                        {
+                                            "dial": "api-graphql:80"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "match": [
+                                {
+                                    "host": [
+                                        "n8n.sandbox.bonde.org"
+                                    ]
+                                }
+                            ],
+                            "handle": [
+                                {
+                                    "handler": "reverse_proxy",
+                                    "upstreams": [
+                                        {
+                                            "dial": "n8n:80"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
                         {
                             "handle": [
                                 {
@@ -20,32 +59,30 @@
                             ]
                         }
                     ]
-                },
-                "http_redirect": {
-                    "listen": [
-                        ":80"
-                    ],
-                    "routes": [
-                        {
-                            "handle": [
-                                {
-                                    "handler": "static_response",
-                                    "headers": {
-                                        "Location": [
-                                            "https://{http.request.host}{http.request.uri}"
-                                        ]
-                                    },
-                                    "status_code": 308
-                                }
-                            ]
-                        }
-                    ]
                 }
             }
         },
         "tls": {
             "automation": {
                 "policies": [
+                    {
+                        "issuers": [
+                            {
+                                "module": "acme",
+                                "email": "tech@bonde.org",
+                                "ca": "https://acme-v02.api.letsencrypt.org/directory"
+                            },
+                            {
+                                "module": "acme",
+                                "email": "igor@nossas.org",
+                                "ca": "https://acme.zerossl.com/v2/DV90"
+                            }
+                        ],
+                        "subjects": [
+                            "api-graphql.sandbox.bonde.org",
+                            "n8n.sandbox.bonde.org"
+                        ]
+                    },
                     {
                         "issuers": [
                             {

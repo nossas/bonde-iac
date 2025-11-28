@@ -7,7 +7,7 @@ class NetworkStack(pulumi.ComponentResource):
     NetworkStack define a VPC única e compartilhada para toda a infraestrutura.
 
     OBJETIVO:
-    - Prover uma rede padrão (default) que será utilizada por TODOS os ambientes
+    - Prover uma rede padrão (default) que será utilizada por todos os ambientes
     - Centralizar a configuração de rede em um único lugar
     - Permitir que múltiplos stacks (shared, sandbox, production) compartilhem a mesma VPC
 

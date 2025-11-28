@@ -1,0 +1,42 @@
+# config/sandbox/public.yaml
+name: "api-activists"
+namespace: "sandbox"
+replicas: 1
+container:
+  image: "nossas/bonde-apis:latest"
+  command: 
+    - "pnpm"
+    - "--filter"
+    - "activists-api"
+    - "start"
+  port: 3000
+  liveness_probe_path: null
+  readiness_probe_path: null
+  env:
+    HOST: "0.0.0.0"
+    PORT: "3000"
+    NODE_ENV: "development"
+    GRAPHQL_HTTP_URL: "https://api-graphql.nossastech.org/v1/graphql"
+    AWS_ENDPOINT: "https://s3.amazonaws.com"
+    AWS_BUCKET: "amazoniadepe"
+  env_from_secret:
+    ACTION_SECRET_KEY: "action-secret"
+    HASURA_SECRET: "hasura-admin-secret"
+    AWS_SECRET_KEY: "aws-secret-key"
+    AWS_ACCESS_KEY: "aws-access-key"
+  resources:
+    requests:
+      memory: "128Mi"
+      cpu: "100m"
+    limits:
+      memory: "256Mi"
+      cpu: "200m"
+service:
+  type: "ClusterIP"
+  port: 80
+  target_port: 3000
+ingress:
+  enabled: false
+labels:
+  component: "backend"
+  app: "api-activists"

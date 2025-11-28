@@ -5,7 +5,33 @@ config:
     secure: AAABAJt6VWGgSqdyVZNMMUriisWUF6GLUECJ68Td6U1i6P0DMCGl4qZfSK36QWvnxexqXtaek+IVZjTxbYIJg/EvjX32TF+5eD2GRlGYyYred5M715v7iUDy5Jt0zpkoRrLDaoBf+5Ymb3ExPmpkvejucTcyCfXwzqbZD6C0FoeYEltw7une3R4=
   apps:pagarme-key:
     secure: AAABAAWYISiccgwp1Q3vmsLImPWtcv+bmjWEOEsRdBnxoixc7Xng/e3pqaoX1tCso/mvog/puV5numEq1X1yrnM+zp/NjA==
-  apps:hasura-secret:
-    secure: AAABAPmzm5ll054Pipi4Jv46q7RZzkySxyoLSwWfiBAnpEPgCE41InOYIy76560gVBDo4E0+5CcG5+FqUSsc+Q==
   apps:action-secret:
     secure: AAABAKg/a+sXdA/p/zqfBzkCG/OMDXK6bNVGDLWjh+J81tD8Xk3wibW2wAHH/06kr9qYal31owg6CeMjZGZ3O+kzwQA=
+  apps:aws-access-key:
+    secure: AAABABfzlZe8UiqYz3YTgMxuuAOlUaihU/rBhJDrfeYkaYkHNxYV03LpyAvsIoyT+ghHww==
+  apps:aws-secret-key:
+    secure: AAABAO4g3mlcxPnHQR00bRl1e0y5ZWgL/JaztZmkdEUM4V+tkehkkpXibrxaAA5eOfUbcJ3v9AxufWH32ORsRcEq0wzXjNDI
+  apps:jwt-secret:
+    secure: AAABAO4AwZUf2zBr4u4bYPqmrUWiBSX+53ozpjoWVhLN9RuKQWr+2UpbHrsDDZU1wHAVJ69pSHbXoF1o80I8zg==
+  apps:elasticsearch-cloud-id:
+    secure: AAABAEuy6EOW+KLMwCBllSeg4Ep5U4u11LLzbM9j43whlTI0el/AngqSEwIgx/z3Fv7/nCrFcAvJ97ZT3B/vb0IryTtTMHwRDYsf94Dt7yRECEWrg2lButURG5py9wTh9t1ydt8s5QfXXKkkzMA5LhyZy9AkgwXqqASjbdIeakm/bd77ts8PwP5J79LSGmkjISBJhkqfvRP7DROfp1A=
+  apps:elasticsearch-password:
+    secure: AAABAARR27XHI1e93FD7cUOi7D+U8q878LFdaV94FeY0H7fG3g+btt7uxGDGyc+ESE3HRpNYlhs=
+  apps:elastic-apm-secret-token:
+    secure: AAABABH752/a5y5FKT0y7CMCV1YUbq5E1F56tAso6eO4wJlI5YOTiQSIJJNuLypHRgY=
+  apps:elastic-apm-server-url:
+    secure: AAABAFfXLeo9i5PSqG0Rc0PcRm9v7ZHbFJPGDAVo+sI+OO/ca0zCZsuEX+SB0BzzugOPE+MPzBfF8HY+r0QgD4mUqU6BdqfRci58KiNyuDwNqzXbADAK0F/3Tnb7TMFe9DlOCoKBuRoAcg==
+  apps:sendgrid-api-key:
+    secure: AAABACmIYmkxYTqEc2EtTe3hJmKPsa97n16gNahU4sLDIEpOF9cMinx3WFILWHSwWNk+baScOdOyKu8/hNJF+uVDPCBJvUXeLXJgY5gb6k6FhtAtFJrCDdnopppVUbQ2DYBxgKs=
+  apps:sendgrid-webhook-key:
+    secure: AAABAEBGX00pdJgFTguGsaSTowbRL3XiyekrFq20Mf30v3wOQqpDUs+9JJ0iwLBTe2y58jVG1o7VoULIvGJG1d+Bj5fOpjZMouJaS6lycEa8GprkueX1qV3ycpVBQxPw5sY6XDtvZqsDbWXm2GMPT5JHBQvCf5G/GO61ooartUWjV81FnRkBix09e7cENez27zq8daHdly7/49zh
+  apps:votepeloclima-database-url:
+    secure: AAABAAGlUh0DcaMajh9OoJwdf0Gws9pGH4JY03J50OQCk7I1ighJzSQhu9h0RP3l+zynu1DwaCGAFubpZssKp+/1mE0keTsADdF8LNcVMb/xkeL/VGJnlw0dTPnfnhrbsQ2klVrNWm03Ff2kWLCym10zfbE7k8VDF5DUnyim9+N2yiqSNTlc
+  apps:n8n-database-url:
+    secure: AAABAO+3+WtvFNt16Rvr+sesCyzxhVbZuBSWHW4JYX8fOrSwI2NbYlrdmqax+0AIPg4IhIbl/6KQbTc3oiKTqTYeIZdzWQDmjWg6H952NDbUfg939g6Zg6SL4kF4Sai7Q/22fmldocibnZXXp1DvWtvI82gguy2Y4X4fAS1K5ndcLf4PwJgHiS/2
+  apps:n8n-smtp-url:
+    secure: AAABALcdPCReZd9ZkFd1f8yQFLxCC18h5dJkctHb+/pXt/nznKwShl39j+QwEgi0vaww3/G5Lg+ye4PpG2UqoLQgxHtAlXpmqNjR6+lbIWk9ikeollQuwtsd32GyFqXkxotBdf/s9dlnzb3iyaVNpwpdzaqqezbySY9xJvE/nl2XaIZcAMh0eXA=
+  apps:n8n-webhook-secret:
+    secure: AAABAF7+ZZunBfNinUjzmKRw0Mj+aHnKvcURNLmuhI2wQ/x20Qd4KIoBW91Aa/zyCU5E4V3109JuL9F8
+  apps:hasura-admin-secret:
+    secure: AAABAGcVs2nn1qLmTRw+ESw9I2zXi0cf2lBUnzihWXyG5nhHjf4lMg==

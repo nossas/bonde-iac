@@ -1,0 +1,41 @@
+# config/sandbox/public.yaml
+name: "api-domains"
+namespace: "sandbox"
+replicas: 1
+container:
+  image: "nossas/bonde-apis:latest"
+  command: 
+    - "pnpm"
+    - "--filter"
+    - "domains-api"
+    - "start"
+  port: 3000
+  liveness_probe_path: null
+  readiness_probe_path: null
+  env:
+    HOST: "0.0.0.0"
+    PORT: "3000"
+    NODE_ENV: "development"
+    GRAPHQL_HTTP_URL: "https://api-graphql.nossastech.org/v1/graphql"
+    AWS_ROUTE53_REGION: "us-east-1"
+  env_from_secret:
+    HASURA_SECRET: "hasura-admin-secret"
+    AWS_SECRET_KEY: "aws-secret-key"
+    AWS_ACCESS_KEY: "aws-access-key"
+    JWT_SECRET: "jwt-secret"
+  resources:
+    requests:
+      memory: "128Mi"
+      cpu: "100m"
+    limits:
+      memory: "256Mi"
+      cpu: "200m"
+service:
+  type: "ClusterIP"
+  port: 80
+  target_port: 3000
+ingress:
+  enabled: false
+labels:
+  component: "backend"
+  app: "api-domains"

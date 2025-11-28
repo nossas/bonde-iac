@@ -1,8 +1,12 @@
 import pulumi
 import pulumi_kubernetes as k8s
 
+from tools.loader import load_service_configs
+from tools.envs import load_env_secrets
 from modules.ingress import create_caddy, create_on_demand_service
-from modules.apps.webservice import WebService, WebServiceConfig, ContainerConfig
+from modules.apps.webservice import WebService
+from modules.apps.api import HasuraGateway
+from modules.apps.workflows import N8NOrchestrator, N8NConfig
 
 
 def create_sandbox_env():
@@ -29,81 +33,70 @@ def create_sandbox_env():
     # ✅ Caddy com LoadBalancer automático
     caddy = create_caddy("caddy", namespace, sandbox_provider, "sandbox")
 
-    # Criar secrets
-    config = pulumi.Config("apps")
-    action_secret = k8s.core.v1.Secret(
-        "action-secret",
-        metadata=k8s.meta.v1.ObjectMetaArgs(
-            name="action-secret",  # Nome válido: sem ":"
-            namespace=sandbox_namespace.metadata["name"],
-        ),
-        string_data={
-            "ACTION_SECRET_KEY": config.require_secret("action-secret"),
-        },
-        opts=pulumi.ResourceOptions(provider=sandbox_provider),
-    )
-    hasura_secret = k8s.core.v1.Secret(
-        "hasura-secret",
-        metadata=k8s.meta.v1.ObjectMetaArgs(
-            name="hasura-secret",  # Nome válido: sem ":"
-            namespace=sandbox_namespace.metadata["name"],
-        ),
-        string_data={
-            "REACT_APP_API_GRAPHQL_SECRET": config.require_secret("hasura-secret"),
-        },
-        opts=pulumi.ResourceOptions(provider=sandbox_provider),
-    )
-    pagarme_secret = k8s.core.v1.Secret(
-        "pagarme-key",
-        metadata=k8s.meta.v1.ObjectMetaArgs(
-            name="pagarme-key",  # Nome válido: sem ":"
-            namespace=sandbox_namespace.metadata["name"],
-        ),
-        string_data={
-            "REACT_APP_PAGARME_KEY": config.require_secret("pagarme-key"),
-        },
-        opts=pulumi.ResourceOptions(provider=sandbox_provider),
+    env_secrets = load_env_secrets(
+        namespace=sandbox_namespace, provider=sandbox_provider
     )
 
     # bonde-public
-    WebService(
-        name="public",
-        config=WebServiceConfig(
-            name="public",
-            namespace="sandbox",
-            replicas=2,
-            container=ContainerConfig(
-                image="nossas/bonde-public:latest",
-                command=["pnpm", "--filter", "webpage-client", "start"],
-                port=3000,
-                liveness_probe_path="/api/ping",
-                readiness_probe_path=None,
-                env=dict(
-                    PORT="3000",
-                    NODE_ENV="development",
-                    REACT_APP_DOMAIN_PUBLIC="sandbox.bonde.org",
-                    REACT_APP_ACTIVE_API_CACHE="false",
-                    # URLs de APIs externas (substituir gradualmente por serviços locais)
-                    REACT_APP_DOMAIN_API_ACTIVISTS="https://api-activists.nossastech.org",
-                    REACT_APP_DOMAIN_API_GRAPHQL="https://api-graphql.nossastech.org/v1/graphql",
-                    REACT_APP_DOMAIN_API_REST="https://api-rest.nossastech.org",
-                    REACT_APP_DOMAIN_IMAGINARY="https://imaginary.nossastech.org",
-                    NEXT_PUBLIC_PHONE_API_URL="https://actions-api.nossastech.org",
-                ),
-                env_from_secret=dict(
-                    ACTION_SECRET_KEY="action-secret",
-                    REACT_APP_API_GRAPHQL_SECRET="hasura-secret",
-                    REACT_APP_PAGARME_KEY="pagarme-key",
-                ),
-                resources={
-                    "requests": {"memory": "128Mi", "cpu": "100m"},
-                    "limits": {"memory": "256Mi", "cpu": "200m"},
-                },
+    # ✅ Carregar e criar todos os serviços
+    service_loaded_configs = load_service_configs("sandbox")
+    created_services = {}
+
+    for service_name, service_config in service_loaded_configs.items():
+        pulumi.log.info(f"🎯 Criando serviço: {service_name}")
+
+        service = WebService(
+            service_name,
+            config=service_config,
+            opts=pulumi.ResourceOptions(
+                provider=sandbox_provider,
+                depends_on=[sandbox_namespace, caddy, on_demand_service],
+                # custom_timeouts=pulumi.CustomTimeouts(create="10m")
             ),
-            labels=dict(component="frontend", app="public"),
+        )
+        created_services[service_name] = service
+
+    pulumi.log.info("🚀 Criando N8N Orchestrator")
+    n8n_orchestrator = N8NOrchestrator(
+        name="n8n",
+        config=N8NConfig(
+            name="n8n",
+            namespace=namespace,
+            webhook_url="https://n8n.sandbox.bonde.org",
+            image="n8nio/n8n:latest",
+            replicas=1,
         ),
         opts=pulumi.ResourceOptions(
-            provider=sandbox_provider, depends_on=[caddy, on_demand_service]
+            provider=sandbox_provider,
+        ),
+    )
+
+    # Depois criar Hasura Gateway (depende dos micro-serviços)
+    pulumi.log.info("🚀 Criando Hasura Gateway")
+    hasura_services = {
+        k: v
+        for k, v in created_services.items()
+        if k in ["api-accounts", "api-domains", "api-notifications", "api-activists"]
+    }
+    hasura_env_vars = {
+        f"{service_name.upper().replace('-', '_')}_URL": f"http://{service_name}:80"
+        for service_name in hasura_services.keys()
+    }
+
+    hasura_env_vars.update({"N8N_WEBHOOK_URL": "http://n8n:80/webhook"})
+
+    hasura_gateway = HasuraGateway(
+        name="api-graphql",
+        namespace=namespace,
+        replicas=1,
+        enable_console=True,  # Apenas em sandbox
+        env_vars=hasura_env_vars,
+        opts=pulumi.ResourceOptions(
+            provider=sandbox_provider,
+            # TODO: Conferir redundancia de dependencias remote-schemas e Hasura
+            depends_on=list(
+                hasura_services.values()
+            ) + [n8n_orchestrator],  # ⚠️ Hasura depende dos micro-serviços
         ),
     )
 

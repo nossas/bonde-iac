@@ -1,0 +1,42 @@
+# config/sandbox/public.yaml
+name: "api-notifications"
+namespace: "sandbox"
+replicas: 1
+container:
+  image: "nossas/bonde-apis:latest"
+  command: 
+    - "pnpm"
+    - "--filter"
+    - "notifications"
+    - "start"
+  port: 3000
+  liveness_probe_path: null
+  readiness_probe_path: null
+  env:
+    HOST: "0.0.0.0"
+    PORT: "3000"
+    NODE_ENV: "development"
+    ELASTIC_APM_SERVICE_NAME: "notifications"
+  env_from_secret:
+    ELASTICSEARCH_CLOUD_ID: "elasticsearch-cloud-id"
+    ELASTICSEARCH_PASSWORD: "elasticsearch-password"
+    ELASTIC_APM_SECRET_TOKEN: "elastic-apm-secret-token"
+    ELASTIC_APM_SERVER_URL: "elastic-apm-server-url"
+    SENDGRID_API_KEY: "sendgrid-api-key"
+    SENDGRID_WEBHOOK_KEY: "sendgrid-webhook-key"
+  resources:
+    requests:
+      memory: "128Mi"
+      cpu: "100m"
+    limits:
+      memory: "256Mi"
+      cpu: "200m"
+service:
+  type: "ClusterIP"
+  port: 80
+  target_port: 3000
+ingress:
+  enabled: false
+labels:
+  component: "backend"
+  app: "api-notifications"

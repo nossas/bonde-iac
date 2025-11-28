@@ -10,7 +10,7 @@ class EKSClusterStack(pulumi.ComponentResource):
     EKSClusterStack define o cluster EKS compartilhado para todos os ambientes.
 
     OBJETIVO:
-    - Prover um cluster Kubernetes único que será utilizado por TODOS os ambientes
+    - Prover um cluster Kubernetes único que será utilizado por todos os ambientes
     - Centralizar a gestão do Kubernetes em um único cluster
     - Permitir isolamento via namespaces (sandbox, production)
     - Otimizar custos com um único cluster EKS

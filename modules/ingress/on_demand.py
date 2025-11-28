@@ -19,21 +19,6 @@ class OnDemandService(pulumi.ComponentResource):
 
         self.namespace = namespace
 
-        config = pulumi.Config("apps")
-        self.database_url = config.require_secret("bonde-database-url")
-
-        self.database_secret = k8s.core.v1.Secret(
-            f"{name}-db-secret",
-            metadata=k8s.meta.v1.ObjectMetaArgs(
-                name=f"{name}-db-credentials",
-                namespace=namespace,
-            ),
-            string_data={
-                "database-url": self.database_url.apply(lambda url: url),
-            },
-            opts=pulumi.ResourceOptions(provider=k8s_provider, parent=self),
-        )
-
         # Deployment do serviço on-demand
         self.deployment = k8s.apps.v1.Deployment(
             f"{name}-deployment",
@@ -66,10 +51,8 @@ class OnDemandService(pulumi.ComponentResource):
                                         name="DATABASE_URL",
                                         value_from=k8s.core.v1.EnvVarSourceArgs(
                                             secret_key_ref=k8s.core.v1.SecretKeySelectorArgs(
-                                                name=self.database_secret.metadata[
-                                                    "name"
-                                                ],
-                                                key="database-url",
+                                                name="bonde-database-url",
+                                                key="BONDE_DATABASE_URL",
                                             )
                                         ),
                                     ),

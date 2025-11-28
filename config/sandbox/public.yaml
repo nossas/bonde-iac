@@ -1,0 +1,44 @@
+# config/sandbox/public.yaml
+name: "public"
+namespace: "sandbox"
+replicas: 2
+container:
+  image: "nossas/bonde-public:latest"
+  command: 
+    - "pnpm"
+    - "--filter"
+    - "webpage-client"
+    - "start"
+  port: 3000
+  liveness_probe_path: "/api/ping"
+  readiness_probe_path: null
+  env:
+    PORT: "3000"
+    NODE_ENV: "development"
+    REACT_APP_DOMAIN_PUBLIC: "sandbox.bonde.org"
+    REACT_APP_ACTIVE_API_CACHE: "false"
+    REACT_APP_DOMAIN_API_ACTIVISTS: "http://api-activists:80"
+    REACT_APP_DOMAIN_API_GRAPHQL: "https://api-graphql.nossastech.org/v1/graphql"
+    REACT_APP_DOMAIN_API_REST: "https://api-rest.nossastech.org"
+    REACT_APP_DOMAIN_IMAGINARY: "https://imaginary.nossastech.org"
+    NEXT_PUBLIC_PHONE_API_URL: "https://actions-api.nossastech.org"
+  env_from_secret:
+    ACTION_SECRET_KEY: "action-secret"
+    REACT_APP_API_GRAPHQL_SECRET: "hasura-admin-secret"
+    REACT_APP_PAGARME_KEY: "pagarme-key"
+  resources:
+    requests:
+      memory: "128Mi"
+      cpu: "100m"
+    limits:
+      memory: "256Mi"
+      cpu: "200m"
+service:
+  type: "ClusterIP"
+  port: 80
+  target_port: 3000
+ingress:
+  enabled: false
+labels:
+  component: "frontend"
+  app: "public"

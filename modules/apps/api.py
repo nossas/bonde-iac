@@ -66,7 +66,7 @@ class HasuraGateway(pulumi.ComponentResource):
 
         # 2. Secrets essenciais do Hasura
         essential_secrets = [
-            ("HASURA_GRAPHQL_ADMIN_SECRET", "hasura-secret"),
+            ("HASURA_GRAPHQL_ADMIN_SECRET", "hasura-admin-secret"),
             ("HASURA_GRAPHQL_DATABASE_URL", "bonde-database-url"),
             (
                 "HASURA_GRAPHQL_VOTEPELOCLIMA_DATABASE_URL",

@@ -1,5 +1,5 @@
 # config/sandbox/public.yaml
-name: "api-activists" # TODO: Refatorar API para remover estrategias de widgets não usadas.
+name: "api-payments" # TODO: Remover serviço api-payments em desuso.
 namespace: "sandbox"
 replicas: 1
 container:
@@ -7,7 +7,7 @@ container:
   command: 
     - "pnpm"
     - "--filter"
-    - "activists-api"
+    - "payments-api"
     - "start"
   port: 3000
   liveness_probe_path: null
@@ -17,13 +17,10 @@ container:
     PORT: "3000"
     NODE_ENV: "development"
     GRAPHQL_HTTP_URL: "http://api-graphql:80/v1/graphql"
-    AWS_ENDPOINT: "https://s3.amazonaws.com"
-    AWS_BUCKET: "amazoniadepe"
   env_from_secret:
-    ACTION_SECRET_KEY: "action-secret"
+    JWT_SECRET: "jwt-secret"
     HASURA_SECRET: "hasura-admin-secret"
-    AWS_SECRET_KEY: "aws-secret-key"
-    AWS_ACCESS_KEY: "aws-access-key"
+    PAGARME_API_KEY: "pagarme-key"
   resources:
     requests:
       memory: "128Mi"
@@ -39,4 +36,4 @@ ingress:
   enabled: false
 labels:
   component: "backend"
-  app: "api-activists"
+  app: "api-payments"

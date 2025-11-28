@@ -12,6 +12,63 @@
                             "match": [
                                 {
                                     "host": [
+                                        "accounts.sandbox.bonde.org"
+                                    ]
+                                }
+                            ],
+                            "handle": [
+                                {
+                                    "handler": "reverse_proxy",
+                                    "upstreams": [
+                                        {
+                                            "dial": "client-accounts:80"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "match": [
+                                {
+                                    "host": [
+                                        "admin-canary.sandbox.bonde.org"
+                                    ]
+                                }
+                            ],
+                            "handle": [
+                                {
+                                    "handler": "reverse_proxy",
+                                    "upstreams": [
+                                        {
+                                            "dial": "client-canary:80"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "match": [
+                                {
+                                    "host": [
+                                        "app.sandbox.bonde.org"
+                                    ]
+                                }
+                            ],
+                            "handle": [
+                                {
+                                    "handler": "reverse_proxy",
+                                    "upstreams": [
+                                        {
+                                            "dial": "client-admin:80"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "match": [
+                                {
+                                    "host": [
                                         "api-graphql.sandbox.bonde.org"
                                     ]
                                 }
@@ -79,6 +136,9 @@
                             }
                         ],
                         "subjects": [
+                            "accounts.sandbox.bonde.org",
+                            "admin.sandbox.bonde.org",
+                            "admin-canary.sandbox.bonde.org",
                             "api-graphql.sandbox.bonde.org",
                             "n8n.sandbox.bonde.org"
                         ]

@@ -16,7 +16,7 @@ container:
     HOST: "0.0.0.0"
     PORT: "3000"
     NODE_ENV: "development"
-    GRAPHQL_HTTP_URL: "https://api-graphql.nossastech.org/v1/graphql"
+    GRAPHQL_HTTP_URL: "http://api-graphql:80/v1/graphql"
     ACCOUNTS_REGISTER_URL: "https://accounts.sandbox.bonde.org/register"
   env_from_secret:
     HASURA_SECRET: "hasura-admin-secret"

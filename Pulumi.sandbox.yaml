@@ -34,4 +34,4 @@ config:
   apps:n8n-webhook-secret:
     secure: AAABAF7+ZZunBfNinUjzmKRw0Mj+aHnKvcURNLmuhI2wQ/x20Qd4KIoBW91Aa/zyCU5E4V3109JuL9F8
   apps:hasura-admin-secret:
-    secure: AAABAGcVs2nn1qLmTRw+ESw9I2zXi0cf2lBUnzihWXyG5nhHjf4lMg==
+    secure: AAABALgGaAfJCkbpCUAff2+Zk3nN+GDEm7v4L9AQxcF5luaZ2KEt/A==

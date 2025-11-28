@@ -18,6 +18,7 @@ def load_env_secrets(
             namespace=namespace.metadata["name"],
         ),
         string_data={
+            "DATABASE_URL": config.require_secret("bonde-database-url"),
             "BONDE_DATABASE_URL": config.require_secret("bonde-database-url"),
             "HASURA_GRAPHQL_DATABASE_URL": config.require_secret("bonde-database-url"),
         },
@@ -137,6 +138,7 @@ def load_env_secrets(
             namespace=namespace.metadata["name"],
         ),
         string_data={
+            "PAGARME_API_KEY": config.require_secret("pagarme-key"),
             "REACT_APP_PAGARME_KEY": config.require_secret("pagarme-key"),
         },
         opts=pulumi.ResourceOptions(provider=provider),

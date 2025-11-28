@@ -76,7 +76,7 @@ def create_sandbox_env():
     hasura_services = {
         k: v
         for k, v in created_services.items()
-        if k in ["api-accounts", "api-domains", "api-notifications", "api-activists"]
+        if k in ["api-accounts", "api-domains", "api-notifications", "api-activists", "api-payments"]
     }
     hasura_env_vars = {
         f"{service_name.upper().replace('-', '_')}_URL": f"http://{service_name}:80"

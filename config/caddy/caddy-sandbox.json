@@ -137,7 +137,7 @@
                         ],
                         "subjects": [
                             "accounts.sandbox.bonde.org",
-                            "admin.sandbox.bonde.org",
+                            "app.sandbox.bonde.org",
                             "admin-canary.sandbox.bonde.org",
                             "api-graphql.sandbox.bonde.org",
                             "n8n.sandbox.bonde.org"

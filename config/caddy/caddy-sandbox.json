@@ -88,6 +88,25 @@
                             "match": [
                                 {
                                     "host": [
+                                        "api-rest.sandbox.bonde.org"
+                                    ]
+                                }
+                            ],
+                            "handle": [
+                                {
+                                    "handler": "reverse_proxy",
+                                    "upstreams": [
+                                        {
+                                            "dial": "api-rest:80"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "match": [
+                                {
+                                    "host": [
                                         "n8n.sandbox.bonde.org"
                                     ]
                                 }
@@ -140,6 +159,7 @@
                             "app.sandbox.bonde.org",
                             "admin-canary.sandbox.bonde.org",
                             "api-graphql.sandbox.bonde.org",
+                            "api-rest.sandbox.bonde.org",
                             "n8n.sandbox.bonde.org"
                         ]
                     },

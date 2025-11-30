@@ -1,3 +1,4 @@
+import base64
 import json
 import pulumi
 import pulumi_kubernetes as k8s
@@ -163,6 +164,7 @@ def load_env_secrets(
         ),
         string_data={
             "AWS_ACCESS_KEY": config.require_secret("aws-access-key"),
+            "AWS_ID": config.require_secret("aws-access-key")
         },
         opts=pulumi.ResourceOptions(provider=provider),
     )
@@ -174,6 +176,7 @@ def load_env_secrets(
         ),
         string_data={
             "AWS_SECRET_KEY": config.require_secret("aws-secret-key"),
+            "AWS_SECRET": config.require_secret("aws-secret-key"),
         },
         opts=pulumi.ResourceOptions(provider=provider),
     )
@@ -307,4 +310,5 @@ def load_env_secrets(
         elastic_apm_server_url=elastic_apm_server_url,
         sendgrid_api_key=sendgrid_api_key,
         sendgrid_webhook_key=sendgrid_webhook_key,
+        ghcr_auth=ghcr_auth
     )

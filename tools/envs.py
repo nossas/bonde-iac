@@ -71,23 +71,35 @@ def load_env_secrets(
 
     n8n_smtp_url = config.require_secret("n8n-smtp-url")
     
-    n8n_smtp_secret = k8s.core.v1.Secret(
-        "n8n-smtp-secret",
+    smtp_secret = k8s.core.v1.Secret(
+        "smtp-secret",
         metadata=k8s.meta.v1.ObjectMetaArgs(
-            name="n8n-smtp-secret",
+            name="smtp-secret",
             namespace=namespace.metadata["name"],
         ),
         string_data={
             "N8N_SMTP_HOST": n8n_smtp_url.apply(
                 lambda url: urlparse(url).hostname
             ),
+            "SMTP_HOST": n8n_smtp_url.apply(
+                lambda url: urlparse(url).hostname
+            ),
             "N8N_SMTP_PORT": n8n_smtp_url.apply(
+                lambda url: str(urlparse(url).port) if urlparse(url).port else "587"
+            ),
+            "SMTP_PORT": n8n_smtp_url.apply(
                 lambda url: str(urlparse(url).port) if urlparse(url).port else "587"
             ),
             "N8N_SMTP_USER": n8n_smtp_url.apply(
                 lambda url: urlparse(url).username or "user"
             ),
+            "SMTP_USERNAME": n8n_smtp_url.apply(
+                lambda url: urlparse(url).username or "user"
+            ),
             "N8N_SMTP_PASS": n8n_smtp_url.apply(
+                lambda url: urlparse(url).password or "pass"
+            ),
+            "SMTP_PASSWORD": n8n_smtp_url.apply(
                 lambda url: urlparse(url).password or "pass"
             ),
         },
@@ -256,12 +268,32 @@ def load_env_secrets(
         },
         opts=pulumi.ResourceOptions(provider=provider),
     )
+    
+    ghcr_auth = k8s.core.v1.Secret(
+        "ghcr-auth",
+        metadata=k8s.meta.v1.ObjectMetaArgs(
+            name="ghcr-auth",
+            namespace=namespace.metadata["name"],
+        ),
+        type="kubernetes.io/dockerconfigjson",
+        string_data={
+            ".dockerconfigjson": config.require_secret("ghcr-auth").apply(
+                lambda auth: pulumi.Output.json_dumps({
+                    "auths": {
+                        "ghcr.io": {
+                            "auth": base64.b64encode(auth.encode()).decode()
+                        }
+                    }
+                })
+            )
+        }
+    )
 
     return dict(
         bonde_database_url=bonde_database_url,
         votepeloclima_database_url=votepeloclima_database_url,
         n8n_database_secret=n8n_database_secret,
-        n8n_smtp_secret=n8n_smtp_secret,
+        smtp_secret=smtp_secret,
         n8n_webhook_secret=n8n_webhook_secret,
         action_secret=action_secret,
         hasura_admin_secret=hasura_admin_secret,

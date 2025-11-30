@@ -1,4 +1,3 @@
-# config/sandbox/public.yaml
 name: "public"
 namespace: "sandbox"
 replicas: 2

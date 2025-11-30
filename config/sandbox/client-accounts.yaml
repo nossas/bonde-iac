@@ -1,4 +1,3 @@
-# config/sandbox/public.yaml
 name: "client-accounts"
 namespace: "sandbox"
 replicas: 1

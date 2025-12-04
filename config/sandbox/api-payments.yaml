@@ -1,4 +1,3 @@
-# config/sandbox/public.yaml
 name: "api-payments" # TODO: Remover serviço api-payments em desuso.
 namespace: "sandbox"
 replicas: 1

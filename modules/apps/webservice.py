@@ -1,4 +1,4 @@
-from typing import Dict, List, Optional, Any, Union
+from typing import Dict, List, Optional, Any, Union, List
 from pydantic import BaseModel
 import pulumi
 import pulumi_kubernetes as k8s
@@ -6,6 +6,8 @@ import pulumi_kubernetes as k8s
 
 class ContainerConfig(BaseModel):
     image: str
+    image_pull_secrets: Optional[List[str]] = None
+    image_pull_policy: Optional[str] = None
     port: int
     command: Optional[List[str]] = None
     args: Optional[List[str]] = None
@@ -130,10 +132,21 @@ class WebService(pulumi.ComponentResource):
                     metadata=k8s.meta.v1.ObjectMetaArgs(labels=self._get_labels()),
                     spec=k8s.core.v1.PodSpecArgs(
                         service_account_name=self.config.service_account,
+                        image_pull_secrets=(
+                            [
+                                k8s.core.v1.LocalObjectReferenceArgs(
+                                    name=secret_name,
+                                )
+                                for secret_name in self.config.container.image_pull_secrets
+                            ]
+                            if self.config.container.image_pull_secrets
+                            else None
+                        ),
                         containers=[
                             k8s.core.v1.ContainerArgs(
                                 name=self.config.name,
                                 image=self.config.container.image,
+                                image_pull_policy=self.config.container.image_pull_policy,
                                 ports=[
                                     k8s.core.v1.ContainerPortArgs(
                                         container_port=self.config.container.port

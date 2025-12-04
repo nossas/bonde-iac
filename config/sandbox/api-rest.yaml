@@ -1,0 +1,56 @@
+# TODO: Serviço Api Rest deve ser removido.
+name: "api-rest"
+namespace: "sandbox"
+replicas: 1
+container:
+  image: "ghcr.io/nossas/bonde-server:latest"
+  image_pull_secrets:
+    - "ghcr-auth"
+  command: 
+    - "bundle"
+    - "exec"
+    - "puma"
+    - "-C"
+    - "config/puma.rb"
+  port: 3000
+  liveness_probe_path: null
+  readiness_probe_path: null
+  env:
+    PORT: "3000"
+    WEB_CONCURRENCY: "2"
+    WEB_MEMORY: "1024"
+    AWS_REGION: "us-east-1"
+    AWS_BUCKET: "hub-central-dev"
+    AWS_ENDPOINT: "https://s3.amazonaws.com"
+    AWS_ROUTE53_SYNC: "force"
+    AWS_ROUTE_IP: "127.0.0.1"
+    API_HOST: "api-rest.sandbox.bonde.org"
+    CLIENT_HOST: "sandbox.bonde.org"
+    LOG_LEVEL: "info"
+    RAILS_ENV: "development"
+    RAILS_SERVE_STATIC_FILES: "enabled"
+  env_from_secret:
+    DATABASE_URL: "bonde-database-url"
+    JWT_SECRET: "jwt-secret"
+    AWS_ID: "aws-access-key"
+    AWS_SECRET: "aws-secret-key"
+    SMTP_HOST: "smtp-secret"
+    SMTP_PASSWORD: "smtp-secret"
+    SMTP_PORT: "smtp-secret"
+    SMTP_USERNAME: "smtp-secret"
+  resources:
+    requests:
+      memory: "128Mi"
+      cpu: "100m"
+    limits:
+      memory: "256Mi"
+      cpu: "200m"
+service:
+  type: "ClusterIP"
+  port: 80
+  target_port: 3000
+ingress:
+  enabled: false
+labels:
+  component: "backend"
+  app: "api-rest"

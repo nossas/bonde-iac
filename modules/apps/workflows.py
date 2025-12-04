@@ -74,7 +74,7 @@ class N8NOrchestrator(pulumi.ComponentResource):
         # Database Secrets
         # Database
         database_secret: str = "n8n-database-secret"
-        smtp_secret: str = "n8n-smtp-secret"
+        smtp_secret: str = "smtp-secret"
         webhook_secret: str = "n8n-webhook-secret"
 
         secret_vars = [

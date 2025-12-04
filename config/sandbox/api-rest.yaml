@@ -13,7 +13,7 @@ container:
     - "-C"
     - "config/puma.rb"
   port: 3000
-  liveness_probe_path: "/api/ping"
+  liveness_probe_path: null
   readiness_probe_path: null
   env:
     PORT: "3000"

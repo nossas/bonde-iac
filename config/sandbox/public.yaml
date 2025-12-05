@@ -1,6 +1,9 @@
 name: "public"
 namespace: "sandbox"
 replicas: 2
+autoscaling:
+  max_replicas: 8
+  cpu_target: 70
 container:
   image: "nossas/bonde-public:latest"
   command: 

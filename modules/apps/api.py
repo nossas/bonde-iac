@@ -11,6 +11,10 @@ class HasuraGateway(pulumi.ComponentResource):
         # Configurações específicas do Hasura
         image: str = "hasura/graphql-engine:latest",
         replicas: int = 2,
+        resources: Dict[str, Any] = {
+            "requests": {"memory": "200Mi", "cpu": "20m"},
+            "limits": {"memory": "500Mi", "cpu": "100m"},
+        },
         enable_console: bool = True,
         # Dependências (micro-serviços) {"ENV_VAR_NAME": "SERVICE_URL"}
         env_vars: Optional[Dict[str, Any]] = None,
@@ -22,6 +26,7 @@ class HasuraGateway(pulumi.ComponentResource):
         self.namespace = namespace
         self.env_vars = env_vars
         self.enable_console = enable_console
+        self.resources = resources
         self.deployment = self._create_deployment(image, replicas)
         self.service = self._create_service()
 
@@ -59,9 +64,7 @@ class HasuraGateway(pulumi.ComponentResource):
         if self.env_vars:
             for env_var_name, env_var_value in self.env_vars.items():
                 env_vars.append(
-                    k8s.core.v1.EnvVarArgs(
-                        name=env_var_name, value=env_var_value
-                    )
+                    k8s.core.v1.EnvVarArgs(name=env_var_name, value=env_var_value)
                 )
 
         # 2. Secrets essenciais do Hasura
@@ -109,8 +112,8 @@ class HasuraGateway(pulumi.ComponentResource):
                                 ],
                                 env=env_vars,
                                 resources=k8s.core.v1.ResourceRequirementsArgs(
-                                    requests={"memory": "512Mi", "cpu": "250m"},
-                                    limits={"memory": "1Gi", "cpu": "500m"},
+                                    requests=self.resources.get("requests", {}),
+                                    limits=self.resources.get("limits", {}),
                                 ),
                                 liveness_probe=k8s.core.v1.ProbeArgs(
                                     http_get=k8s.core.v1.HTTPGetActionArgs(

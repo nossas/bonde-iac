@@ -15,11 +15,11 @@ container:
   readiness_probe_path: null
   resources:
     requests:
-      memory: "128Mi"
-      cpu: "100m"
+      memory: "50Mi"
+      cpu: "5m"
     limits:
-      memory: "256Mi"
-      cpu: "200m"
+      memory: "150Mi"
+      cpu: "50m"
 service:
   type: "ClusterIP"
   port: 80

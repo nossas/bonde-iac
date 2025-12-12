@@ -37,10 +37,22 @@ class IngressConfig(BaseModel):
     annotations: Dict[str, str] = {}
 
 
+class AutoScalingMetricsConfig(BaseModel):
+    resource_name: str
+    target_type: str
+    target_value: str
+
+
+class AutoScalingConfig(BaseModel):
+    max_replicas: int = 4
+    cpu_target: Optional[int]
+
+
 class WebServiceConfig(BaseModel):
     name: str
     namespace: str
     replicas: int = 1
+    autoscaling: Optional[AutoScalingConfig] = None
     container: ContainerConfig
     service: ServiceConfig = ServiceConfig()
     ingress: IngressConfig = IngressConfig()
@@ -115,7 +127,7 @@ class WebService(pulumi.ComponentResource):
                 period_seconds=5,
             )
 
-        return k8s.apps.v1.Deployment(
+        deployment = k8s.apps.v1.Deployment(
             f"{self.config.name}-deployment",
             metadata=k8s.meta.v1.ObjectMetaArgs(
                 name=self.config.name,
@@ -171,6 +183,46 @@ class WebService(pulumi.ComponentResource):
             ),
             opts=pulumi.ResourceOptions(parent=self),
         )
+
+        if self.config.autoscaling:
+            metrics = []
+
+            if self.config.autoscaling.cpu_target:
+                metrics.append(
+                    k8s.autoscaling.v2.MetricSpecArgs(
+                        type="Resource",
+                        resource=k8s.autoscaling.v2.ResourceMetricSourceArgs(
+                            name="cpu",
+                            target=k8s.autoscaling.v2.MetricTargetArgs(
+                                type="Utilization",
+                                average_utilization=self.config.autoscaling.cpu_target,  # Escala se CPU > X
+                            ),
+                        ),
+                    )
+                )
+
+            self.hpa = k8s.autoscaling.v2.HorizontalPodAutoscaler(
+                f"{self.config.name}-hpa",
+                metadata=k8s.meta.v1.ObjectMetaArgs(
+                    name=f"{self.config.name}-hpa",
+                    namespace=self.config.namespace,
+                ),
+                spec=k8s.autoscaling.v2.HorizontalPodAutoscalerSpecArgs(
+                    scale_target_ref=k8s.autoscaling.v2.CrossVersionObjectReferenceArgs(
+                        api_version="apps/v1",
+                        kind="Deployment",
+                        name=self.config.name,  # Nome do seu deployment
+                    ),
+                    min_replicas=self.config.replicas,
+                    max_replicas=self.config.autoscaling.max_replicas,
+                    metrics=metrics,
+                ),
+                opts=pulumi.ResourceOptions(
+                    depends_on=[deployment]  # Depende do deployment existir
+                ),
+            )
+
+        return deployment
 
     def _create_service(self) -> k8s.core.v1.Service:
         return k8s.core.v1.Service(

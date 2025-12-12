@@ -40,10 +40,10 @@ container:
     SMTP_USERNAME: "smtp-secret"
   resources:
     requests:
-      memory: "128Mi"
-      cpu: "100m"
+      memory: "200Mi"
+      cpu: "40m"
     limits:
-      memory: "256Mi"
+      memory: "500Mi"
       cpu: "200m"
 service:
   type: "ClusterIP"

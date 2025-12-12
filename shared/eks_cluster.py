@@ -127,19 +127,30 @@ class EKSClusterStack(pulumi.ComponentResource):
             cluster_name=self.eks_cluster.name,
             node_role_arn=node_group_role.arn,
             subnet_ids=private_subnet_ids,
-            instance_types=["t3.medium"],
+            instance_types=["m5.large"],
+            update_config=aws.eks.NodeGroupUpdateConfigArgs(
+                max_unavailable=1,  # Atualiza 1 node por vez
+            ),
             scaling_config=aws.eks.NodeGroupScalingConfigArgs(
                 desired_size=2,
                 min_size=1,
-                max_size=5,
+                max_size=4,  # Seu limite de emergência
             ),
+            # Opcional: Labels para identificar
+            labels={
+                "node.kubernetes.io/instance-type": "m5.large",
+            },
             tags={
                 "Name": "eks-nodegroup",
                 "Environment": "shared",
                 "ManagedBy": "pulumi",
+                "InstanceType": "m5.large",
             },
             opts=pulumi.ResourceOptions(
-                parent=self, depends_on=[self.eks_cluster, node_group_role]
+                parent=self,
+                depends_on=[self.eks_cluster, node_group_role],
+                # FORÇA substituição completa
+                replace_on_changes=["instance_types"],
             ),
         )
 

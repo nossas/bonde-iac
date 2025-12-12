@@ -18,8 +18,8 @@ class N8NConfig(BaseModel):
     service_type: str = "ClusterIP"
     # Recursos
     resources: Dict[str, Any] = {
-        "requests": {"memory": "512Mi", "cpu": "250m"},
-        "limits": {"memory": "1Gi", "cpu": "500m"},
+        "requests": {"memory": "500Mi", "cpu": "20m"},
+        "limits": {"memory": "1Gi", "cpu": "200m"},
     }
 
 

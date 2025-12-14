@@ -1,0 +1,88 @@
+{
+    "apps": {
+        "http": {
+            "servers": {
+                "srv0": {
+                    "listen": [
+                        ":80",
+                        ":443"
+                    ],
+                    "routes": [
+                        {
+                            "match": [
+                                {
+                                    "host": [
+                                        "accounts.bonde.org"
+                                    ]
+                                }
+                            ],
+                            "handle": [
+                                {
+                                    "handler": "reverse_proxy",
+                                    "upstreams": [
+                                        {
+                                            "dial": "client-accounts:80"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "handle": [
+                                {
+                                    "handler": "static_response",
+                                    "body": "Olá eu sou a nova infra do bonde.org",
+                                    "status_code": 200
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        },
+        "tls": {
+            "automation": {
+                "policies": [
+                    {
+                        "issuers": [
+                            {
+                                "module": "acme",
+                                "email": "tech@bonde.org",
+                                "ca": "https://acme-v02.api.letsencrypt.org/directory"
+                            },
+                            {
+                                "module": "acme",
+                                "email": "igor@nossas.org",
+                                "ca": "https://acme.zerossl.com/v2/DV90"
+                            }
+                        ],
+                        "subjects": [
+                            "accounts.bonde.org"
+                        ]
+                    },
+                    {
+                        "issuers": [
+                            {
+                                "module": "acme",
+                                "email": "tech@bonde.org",
+                                "ca": "https://acme-v02.api.letsencrypt.org/directory"
+                            },
+                            {
+                                "module": "acme",
+                                "email": "igor@nossas.org",
+                                "ca": "https://acme.zerossl.com/v2/DV90"
+                            }
+                        ],
+                        "on_demand": true
+                    }
+                ],
+                "on_demand": {
+                    "permission": {
+                        "module": "http",
+                        "endpoint": "http://on-demand:80/verify"
+                    }
+                }
+            }
+        }
+    }
+}

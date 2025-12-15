@@ -1,0 +1,46 @@
+name: "public"
+namespace: "bonde-org"
+replicas: 2
+autoscaling:
+  max_replicas: 8
+  cpu_target: 70
+container:
+  image: "nossas/bonde-public:latest"
+  command: 
+    - "pnpm"
+    - "--filter"
+    - "webpage-client"
+    - "start"
+  port: 3000
+  liveness_probe_path: "/api/ping"
+  readiness_probe_path: null
+  env:
+    PORT: "3000"
+    NODE_ENV: "production"
+    REACT_APP_DOMAIN_PUBLIC: "bonde.org"
+    REACT_APP_ACTIVE_API_CACHE: "false"
+    REACT_APP_DOMAIN_API_ACTIVISTS: "http://api-activists:80"
+    REACT_APP_DOMAIN_API_GRAPHQL: "https://api-graphql.bonde.org/v1/graphql"
+    REACT_APP_DOMAIN_API_REST: "https://api-rest.bonde.org"
+    REACT_APP_DOMAIN_IMAGINARY: "https://imaginary.bonde.org"
+    NEXT_PUBLIC_PHONE_API_URL: "https://actions-api.bonde.org"
+  env_from_secret:
+    ACTION_SECRET_KEY: "action-secret"
+    REACT_APP_API_GRAPHQL_SECRET: "hasura-admin-secret"
+    REACT_APP_PAGARME_KEY: "pagarme-key"
+  resources:
+    requests:
+      memory: "600Mi"
+      cpu: "200m"
+    limits:
+      memory: "1.2Gi"
+      cpu: "800m"
+service:
+  type: "ClusterIP"
+  port: 80
+  target_port: 3000
+ingress:
+  enabled: false
+labels:
+  component: "frontend"
+  app: "public"

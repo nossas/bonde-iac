@@ -25,6 +25,17 @@ def load_env_secrets(
         },
         opts=pulumi.ResourceOptions(provider=provider),
     )
+    bonde_database_url_v2 = k8s.core.v1.Secret(
+        "bonde-database-url-v2",
+        metadata=k8s.meta.v1.ObjectMetaArgs(
+            name="bonde-database-url-v2",
+            namespace=namespace.metadata["name"],
+        ),
+        string_data={
+            "DATABASE_URL": config.require_secret("bonde-database-url-v2"),
+        },
+        opts=pulumi.ResourceOptions(provider=provider),
+    )
     votepeloclima_database_url = k8s.core.v1.Secret(
         "votepeloclima-database-url",
         metadata=k8s.meta.v1.ObjectMetaArgs(
@@ -294,6 +305,7 @@ def load_env_secrets(
 
     return dict(
         bonde_database_url=bonde_database_url,
+        bonde_database_url_v2=bonde_database_url_v2,
         votepeloclima_database_url=votepeloclima_database_url,
         n8n_database_secret=n8n_database_secret,
         smtp_secret=smtp_secret,

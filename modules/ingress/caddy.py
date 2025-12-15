@@ -5,6 +5,7 @@ import os
 from typing import Dict, Optional
 
 
+# TODO: Persistir certificados gerenciados pelo Caddy em um bucket S3.
 class CaddyStack(pulumi.ComponentResource):
     """
     CaddyStack implementa o Caddy como proxy reverso multi-tenant com LoadBalancer automático.
@@ -104,7 +105,9 @@ class CaddyStack(pulumi.ComponentResource):
                                         name="caddy-config", mount_path="/etc/caddy"
                                     ),
                                     k8s.core.v1.VolumeMountArgs(
-                                        name="caddy-data", mount_path="/data"
+                                        name="caddy-data",
+                                        mount_path="/data",
+                                        sub_path=namespace,
                                     ),
                                 ],
                                 resources=k8s.core.v1.ResourceRequirementsArgs(
@@ -144,6 +147,11 @@ class CaddyStack(pulumi.ComponentResource):
                     "service.beta.kubernetes.io/aws-load-balancer-type": "nlb",  # ou "elb"
                     "service.beta.kubernetes.io/aws-load-balancer-scheme": "internet-facing",
                     "service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled": "true",
+                    # ANOTAÇÃO CRÍTICA - Adiciona tag única para cada ambiente
+                    "service.beta.kubernetes.io/aws-load-balancer-attributes": (
+                        f"load_balancing.cross_zone.enabled=true,"
+                        f"tags=Environment={environment},Namespace={namespace}"
+                    ),
                 },
             ),
             spec=k8s.core.v1.ServiceSpecArgs(
@@ -181,7 +189,10 @@ def create_caddy(
     namespace: str,
     k8s_provider,
     environment: str,
-    resources: Optional[Dict[str, any]],
+    resources: Optional[Dict[str, any]] = dict(
+        requests={"memory": "100Mi", "cpu": "5m"},
+        limits={"memory": "200Mi", "cpu": "25m"},
+    ),
 ):
     """
     Cria o Caddy para um ambiente específico com LoadBalancer automático.

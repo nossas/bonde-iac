@@ -11,9 +11,7 @@
                         {
                             "match": [
                                 {
-                                    "host": [
-                                        "accounts.bonde.org"
-                                    ]
+                                    "host": ["accounts.bonde.org"]
                                 }
                             ],
                             "handle": [
@@ -28,11 +26,133 @@
                             ]
                         },
                         {
+                            "match": [
+                                {
+                                    "host": ["admin-canary.bonde.org"]
+                                }
+                            ],
                             "handle": [
                                 {
-                                    "handler": "static_response",
-                                    "body": "Olá eu sou a nova infra do bonde.org",
-                                    "status_code": 200
+                                    "handler": "reverse_proxy",
+                                    "upstreams": [
+                                        {
+                                            "dial": "client-canary:80"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "match": [
+                                {
+                                    "host": ["api-data.bonde.org"]
+                                }
+                            ],
+                            "handle": [
+                                {
+                                    "handler": "reverse_proxy",
+                                    "upstreams": [
+                                        {
+                                            "dial": "api-data:80"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "match": [
+                                {
+                                    "host": ["api-graphql.bonde.org"]
+                                }
+                            ],
+                            "handle": [
+                                {
+                                    "handler": "reverse_proxy",
+                                    "upstreams": [
+                                        {
+                                            "dial": "api-graphql:80"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "match": [
+                                {
+                                    "host": ["api-rest.bonde.org"]
+                                }
+                            ],
+                            "handle": [
+                                {
+                                    "handler": "reverse_proxy",
+                                    "upstreams": [
+                                        {
+                                            "dial": "api-rest:80"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "match": [
+                                {
+                                    "host": ["app.bonde.org"]
+                                }
+                            ],
+                            "handle": [
+                                {
+                                    "handler": "reverse_proxy",
+                                    "upstreams": [
+                                        {
+                                            "dial": "client-admin:80"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "match": [
+                                {
+                                    "host": ["imaginary.bonde.org"]
+                                }
+                            ],
+                            "handle": [
+                                {
+                                    "handler": "reverse_proxy",
+                                    "upstreams": [
+                                        {
+                                            "dial": "imaginary:9000"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "match": [
+                                {
+                                    "host": ["n8n.bonde.org"]
+                                }
+                            ],
+                            "handle": [
+                                {
+                                    "handler": "reverse_proxy",
+                                    "upstreams": [
+                                        {
+                                            "dial": "n8n:80"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "handle": [
+                                {
+                                    "handler": "reverse_proxy",
+                                    "upstreams": [
+                                        {
+                                            "dial": "public:80"
+                                        }
+                                    ]
                                 }
                             ]
                         }
@@ -57,7 +177,14 @@
                             }
                         ],
                         "subjects": [
-                            "accounts.bonde.org"
+                            "accounts.bonde.org",
+                            "admin-canary.bonde.org",
+                            "api-data.bonde.org",
+                            "api-graphql.bonde.org",
+                            "api-rest.bonde.org",
+                            "app.bonde.org",
+                            "imaginary.bonde.org",
+                            "n8n.bonde.org"
                         ]
                     },
                     {

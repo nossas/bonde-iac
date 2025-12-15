@@ -4,6 +4,8 @@ import pulumi_kubernetes as k8s
 from tools.loader import load_service_configs
 from tools.envs import load_env_secrets
 from modules.ingress import create_on_demand_service, create_caddy
+from modules.apps.api import HasuraGateway
+from modules.apps.workflows import N8NOrchestrator, N8NConfig
 from modules.apps.webservice import WebService
 
 
@@ -23,7 +25,7 @@ def create_bonde_org_env():
         metadata=k8s.meta.v1.ObjectMetaArgs(name=stack_name),
         opts=pulumi.ResourceOptions(provider=k8s_provider),
     )
-    
+
     load_env_secrets(namespace=namespace, provider=k8s_provider)
 
     pulumi.log.info("Criando serviço on-demand para verificação TLS...")
@@ -34,43 +36,12 @@ def create_bonde_org_env():
         environment=stack_name,
     )
 
-    # pulumi.log.info("Criando S3 Bucket para armazenamento de certificados...")
-    # account_id = aws.get_caller_identity().account_id
-    # bucket = aws.s3.Bucket(
-    #     "caddy-certs-bonde-org",
-    #     bucket=f"caddy-certificates-bonde-org-{account_id}",
-    #     force_destroy=True,
-    #     # ✅ Tudo configurado aqui
-    #     versioning=aws.s3.BucketVersioningArgs(enabled=True),
-    #     server_side_encryption_configuration=aws.s3.BucketServerSideEncryptionConfigurationArgs(
-    #         rule=aws.s3.BucketServerSideEncryptionConfigurationRuleArgs(
-    #             apply_server_side_encryption_by_default=aws.s3.BucketServerSideEncryptionConfigurationRuleApplyServerSideEncryptionByDefaultArgs(
-    #                 sse_algorithm="AES256",
-    #             ),
-    #         ),
-    #     ),
-    # )
-
-    # # ✅ Apenas isto separado
-    # aws.s3.BucketPublicAccessBlock(
-    #     "caddy-certs-block-public",
-    #     bucket=bucket.id,
-    #     block_public_acls=True,
-    #     block_public_policy=True,
-    #     ignore_public_acls=True,
-    #     restrict_public_buckets=True,
-    # )
-
     pulumi.log.info("Criando Caddy Ingress + NLB AWS...")
     caddy = create_caddy(
         name="caddy",
         namespace=stack_name,
         k8s_provider=k8s_provider,
         environment=stack_name,
-        # s3_bucket_name=bucket.bucket,  # ✅ Já é um Output
-        # use_s3_for_certificates=True,
-        # replicas=1,
-        # aws_region="us-east-1",
         resources={
             "requests": {"memory": "500Mi", "cpu": "10m"},
             "limits": {"memory": "800Mi", "cpu": "50m"},
@@ -81,7 +52,7 @@ def create_bonde_org_env():
     created_services = {}
 
     for service_name, service_config in service_loaded_configs.items():
-        pulumi.log.info(f"🎯 Criando serviço: {service_name}")
+        pulumi.log.info(f"Criando serviço: {service_name}...")
 
         service = WebService(
             service_name,
@@ -94,7 +65,64 @@ def create_bonde_org_env():
         )
         created_services[service_name] = service
 
+    pulumi.log.info("Criando orquestrador de workflows com n8n...")
+    n8n_orchestrator = N8NOrchestrator(
+        name="n8n",
+        config=N8NConfig(
+            name="n8n",
+            # TODO: Corrigir parâmetro namespace para utilizar a instância ao invés de um string.
+            namespace=stack_name,
+            webhook_url="https://n8n.bonde.org",
+            image="n8nio/n8n:latest",
+            replicas=1,
+            resources={
+                "requests": {"cpu": "20m", "memory": "500Mi"},
+                "limits": {"cpu": "200m", "memory": "1Gi"},
+            },
+        ),
+        opts=pulumi.ResourceOptions(
+            provider=k8s_provider,
+        ),
+    )
+
+    pulumi.log.info("Criando API-GraphQL com Hasura Engine...")
+    hasura_services = {
+        k: v
+        for k, v in created_services.items()
+        if k
+        in [
+            "api-accounts",
+            "api-domains",
+            "api-notifications",
+            "api-activists",
+            "api-payments",
+        ]
+    }
+    hasura_env_vars = {
+        f"{service_name.upper().replace('-', '_')}_URL": f"http://{service_name}:80"
+        for service_name in hasura_services.keys()
+    }
+
+    hasura_env_vars.update({"N8N_WEBHOOK_URL": "http://n8n:80/webhook"})
+
+    hasura_gateway = HasuraGateway(
+        name="api-graphql",
+        namespace=namespace,
+        replicas=1,
+        enable_console=True,  # Apenas em sandbox
+        env_vars=hasura_env_vars,
+        resources={
+            "requests": {"cpu": "100m", "memory": "800Mi"},
+            "limits": {"cpu": "500m", "memory": "1.5Gi"},
+        },
+        opts=pulumi.ResourceOptions(
+            provider=k8s_provider,
+            # TODO: Conferir redundancia de dependencias remote-schemas e Hasura
+            depends_on=list(hasura_services.values())
+            + [n8n_orchestrator],  # ⚠️ Hasura depende dos micro-serviços
+        ),
+    )
+
     pulumi.export("namespace", namespace.metadata["name"])
     pulumi.export("caddy_url", caddy.load_balancer_url)
-    # # pulumi.export("s3_bucket", bucket.bucket)
     pulumi.log.info(f"{stack_name} com NetworkLoadBalancer automático!")

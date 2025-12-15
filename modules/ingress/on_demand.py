@@ -2,6 +2,7 @@ import pulumi
 import pulumi_kubernetes as k8s
 from typing import Optional, Dict
 
+
 class OnDemandService(pulumi.ComponentResource):
     """
     Serviço on-demand básico que sempre responde 200 para qualquer domínio
@@ -125,8 +126,23 @@ class OnDemandService(pulumi.ComponentResource):
         self.service_url = f"http://{name}.{namespace}.svc.cluster.local"
 
 
-def create_on_demand_service(name: str, namespace: str, k8s_provider, environment: str, resources: Optional[Dict[str, any]]):
+def create_on_demand_service(
+    name: str,
+    namespace: str,
+    k8s_provider,
+    environment: str,
+    resources: Optional[Dict[str, any]] = dict(
+        requests={"memory": "100Mi", "cpu": "5m"},
+        limits={"memory": "200Mi", "cpu": "25m"},
+    ),
+):
     """
     Cria o serviço on-demand básico
     """
-    return OnDemandService(name, namespace, k8s_provider, environment, resources)
+    return OnDemandService(
+        name=name,
+        namespace=namespace,
+        k8s_provider=k8s_provider,
+        environment=environment,
+        resources=resources,
+    )

@@ -3,6 +3,8 @@ config:
   infra-eks:environment: bonde-org
   apps:bonde-database-url:
     secure: AAABABpAkFgJ/fbv+SscBAsxtFw8b4Jzd9AxNpD24duN8GAoX0YgTY0LRikKSUm+LfLDYt/CTJRHMQlEOMUVLwttaBiFml1EdkGa5wAHrAfX9kyiuFcAk2tRpTwM+XHlh8FNoJ0OD2ZzFAmTiVhrgvru8q7X8sIVmRirGvYAbE1av1clbsmnLJ++8WQ0LoVAFfxPw6Eu8NljyG54nZqWlKUg+3ILxJ8VwEjVFHgKdh8x
+  apps:bonde-database-url-v2:
+    secure: AAABAI0+b5600CA+9klid/VLjW6hSbM50f5uMIMPonVXht9qAxEZuQU0b8XfDOGOHzsJWFREfDAbCWr0wwkiPVgX1lALkdLMclgQeINXMcUVE66SotnmsQNf4B1bCsQliikfVBvL6J0MF0Aej5iRunaNhzRxMyAZcwS04WOUsNAhcL5v59pudolG7nABvMHSUIPF/jSkzkHd6E+PMri+8YbamjA5wFKmGpHaxe+usTnMHR8=
   apps:aws-access-key:
     secure: AAABAM6qwf97lGAFJ9CMpOzh4VQvu7Y8YT1pmgeDQgiSYkPKdpwR7E6nRibJX4VMAHRyLg==
   apps:aws-secret-key:

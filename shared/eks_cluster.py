@@ -58,6 +58,7 @@ class EKSClusterStack(pulumi.ComponentResource):
             managed_policy_arns=[
                 "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy",
                 "arn:aws:iam::aws:policy/AmazonEKSVPCResourceController",
+                "arn:aws:iam::aws:policy/AmazonS3FullAccess",
             ],
             tags={
                 "Name": f"{name}-role",

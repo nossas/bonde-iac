@@ -1,0 +1,48 @@
+# imaginary-config.yaml
+name: "imaginary"
+namespace: "bonde-org"
+replicas: 2
+autoscaling:
+  max_replicas: 4
+  cpu_target: 70
+container:
+  image: "h2non/imaginary:latest"
+  command: 
+    - "imaginary"
+    # Remova -mount /mnt/data se for usar apenas Redis
+    - "-enable-url-source"
+    - "-cors"
+    - "-allowed-origins"
+    - "https://s3.amazonaws.com/hub-central/uploads/"
+    - "-http-cache-ttl"
+    - "31556926"
+    - "-enable-placeholder"
+    - "-concurrency"      # Adicione controle de concorrência
+    - "50"                # Número máximo de operações concorrentes
+  port: 9000
+  liveness_probe_path: "/health"
+  readiness_probe_path: "/health"
+  env:
+    PORT: "9000"
+    DEBUG: "*"
+    IMAGINARY_ALLOWED_ORIGINS: "https://s3.amazonaws.com/hub-central/uploads/"
+    # Configurações do Redis
+    IMAGINARY_REDIS_URL: "redis://redis:6379"
+    IMAGINARY_REDIS_PASSWORD: ""  # Se você configurou senha no Redis
+    IMAGINARY_REDIS_MAX_CONNECTIONS: "10"
+  resources:
+    requests:
+      memory: "128Mi"
+      cpu: "100m"
+    limits:
+      memory: "256Mi"
+      cpu: "200m"
+service:
+  type: "ClusterIP"
+  port: 9000
+  target_port: 9000
+ingress:
+  enabled: false  # Ou true se quiser expor via Caddy
+labels:
+  component: "image-processing"
+  app: "imaginary"

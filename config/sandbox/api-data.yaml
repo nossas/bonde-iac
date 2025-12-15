@@ -14,7 +14,7 @@ container:
   liveness_probe_path: null
   readiness_probe_path: null
   env_from_secret:
-    DATABASE_URL: "bonde-database-url"
+    DATABASE_URL: "bonde-database-url-v2"
   resources:
     requests:
       memory: "100Mi"

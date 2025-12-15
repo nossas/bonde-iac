@@ -37,3 +37,5 @@ config:
     secure: AAABALgGaAfJCkbpCUAff2+Zk3nN+GDEm7v4L9AQxcF5luaZ2KEt/A==
   apps:ghcr-auth:
     secure: AAABAIntPqq17jpM0IISqY+DIHdcm7Qw37OWdTO7eqpsIPCmf3f01Ew+igdl432+FB+r2grf12jwU1uRHU6desz1LLldTU5iEBRTLSA5UF19ZZo=
+  apps:bonde-database-url-v2:
+    secure: AAABAExjZX/XL2ekJqboVIRhTZKtC3V2046hbvbJu/o41AW439OJefmjQDRq4PsrwWOT/WZXw9lHzyGEIWKBfRm9OM3m9vG6rt3PcZRD8/x7AVuKL659mnBZLsXbHOUdxfh7mLt8V7AUynf2lOx1b+g+CqsPzvCSm/C+RpbT1dptFw8CzZ03B2tNYEenKurrQrGrbIN3iGuA93hUzc3xOuRvkhiEMM1+K2PggSwtSIiP2aA=

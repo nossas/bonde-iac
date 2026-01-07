@@ -3,7 +3,7 @@ namespace: "sandbox"
 replicas: 1
 container:
   # FIXME: Váriaveis de ambiente não são boas opções para projetos client-side com React e NodeJS
-  image: "nossas/bonde-clients:hotfix-build-image-to-sandbox"
+  image: "nossas/bonde-clients:feature-migrate-api-rest-to-graphql"
   image_pull_policy: "Always"
   command: 
     - "pnpm"

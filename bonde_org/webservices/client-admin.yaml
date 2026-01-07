@@ -1,16 +1,16 @@
-name: "client-canary"
+name: "client-admin"
 namespace: "bonde-org"
 replicas: 1
 container:
   # FIXME: Váriaveis de ambiente não são boas opções para projetos client-side com React e NodeJS
-  image: "nossas/bonde-clients:latest"
+  image: "nossas/bonde-clients:v9.0.10"
   image_pull_policy: "Always"
   command: 
     - "pnpm"
     - "--filter"
-    - "canary-client"
+    - "admin-client"
     - "start"
-  port: 3000
+  port: 5000
   liveness_probe_path: null
   readiness_probe_path: null
   resources:
@@ -23,9 +23,9 @@ container:
 service:
   type: "ClusterIP"
   port: 80
-  target_port: 3000
+  target_port: 5000
 ingress:
   enabled: false
 labels:
   component: "frontend"
-  app: "client-canary"
+  app: "client-admin"

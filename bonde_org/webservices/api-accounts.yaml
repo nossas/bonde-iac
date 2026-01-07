@@ -17,6 +17,7 @@ container:
     NODE_ENV: "development"
     GRAPHQL_HTTP_URL: "http://api-graphql:80/v1/graphql"
     ACCOUNTS_REGISTER_URL: "https://accounts.sandbox.bonde.org/register"
+    APP_DOMAIN: bonde.org
   env_from_secret:
     HASURA_SECRET: "hasura-admin-secret"
     JWT_SECRET: "jwt-secret"

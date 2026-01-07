@@ -1,0 +1,45 @@
+name: "cms-aeleicaodoano"
+namespace: "bonde-org"
+replicas: 1
+container:
+  image: "nossas/eleicoes-cms:latest"
+  port: 8000
+  liveness_probe_path: null
+  readiness_probe_path: null
+  env:
+    DJANGO_SETTINGS_MODULE: "org_eleicoes.eleicaodoano.settings.production"
+    DEBUG: "False"
+    AWS_S3_REGION_NAME: "us-east-1"
+    AWS_STORAGE_BUCKET_NAME: "eleicaodoano"
+    DISABLE_RECAPTCHA: "True"
+    BONDE_ACTION_API_URL: "http://api-graphql:80/v1/graphql"
+    ALLOWED_HOSTS: "aeleicaodoano.org,www.aeleicaodoano.org,aeleicaodoano.com,www.aeleicaodoano.com,aeleicaodoano.com.br,www.aeleicaodoano.com.br,aeleicaodoano.org.br,www.aeleicaodoano.org.br"
+    ADMINS: "('BONDE', 'suporte@bonde.org'),"
+  env_from_secret:
+    BONDE_DATABASE_URL: "bonde-database-url"
+    CMS_DATABASE_URL: "aeleicaodoano-database-url"
+    AWS_ACCESS_KEY_ID: "aws-access-key"
+    AWS_SECRET_ACCESS_KEY: "aws-secret-key"
+    BONDE_ACTION_SECRET_KEY: "action-secret"
+    SMTP_HOST: "smtp-secret"
+    SMTP_PORT: "smtp-secret"
+    SMTP_USER: "smtp-secret"
+    SMTP_PASS: "smtp-secret"
+    # RECAPTCHA_PUBLIC_KEY: "recaptcha"
+    # RECAPTCHA_PRIVATE_KEY: "recaptcha"
+  resources:
+    requests:
+      memory: "500Mi"
+      cpu: "50m"
+    limits:
+      memory: "1Gi"
+      cpu: "200m"
+service:
+  type: "ClusterIP"
+  port: 80
+  target_port: 8000
+ingress:
+  enabled: false
+labels:
+  component: "cms"
+  app: "cms-aeleicaodoano"

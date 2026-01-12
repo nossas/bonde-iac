@@ -43,7 +43,7 @@ container:
       memory: "500Mi"
       cpu: "100m"
     limits:
-      memory: "1Gi"
+      memory: "1020Mi"
       cpu: "400m"
 service:
   type: "ClusterIP"

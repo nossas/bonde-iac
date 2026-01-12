@@ -5,12 +5,14 @@ config:
     secure: AAABABpAkFgJ/fbv+SscBAsxtFw8b4Jzd9AxNpD24duN8GAoX0YgTY0LRikKSUm+LfLDYt/CTJRHMQlEOMUVLwttaBiFml1EdkGa5wAHrAfX9kyiuFcAk2tRpTwM+XHlh8FNoJ0OD2ZzFAmTiVhrgvru8q7X8sIVmRirGvYAbE1av1clbsmnLJ++8WQ0LoVAFfxPw6Eu8NljyG54nZqWlKUg+3ILxJ8VwEjVFHgKdh8x
   apps:bonde-database-url-v2:
     secure: AAABAI0+b5600CA+9klid/VLjW6hSbM50f5uMIMPonVXht9qAxEZuQU0b8XfDOGOHzsJWFREfDAbCWr0wwkiPVgX1lALkdLMclgQeINXMcUVE66SotnmsQNf4B1bCsQliikfVBvL6J0MF0Aej5iRunaNhzRxMyAZcwS04WOUsNAhcL5v59pudolG7nABvMHSUIPF/jSkzkHd6E+PMri+8YbamjA5wFKmGpHaxe+usTnMHR8=
+  apps:aeleicaodoano-database-url:
+    secure: AAABALp+o1ML2uAEPviFv8/7NLTlr3toNp6Zmu4fgP9TXIJpGRJRzHRQGueBZ4Gx1OMh3ti7vmL8ug1fygMehqZgoa2FmaClmeqEuYFYqLFhbjNgSB7OPfTt5VXlApOsROgXsl7OEE9CuQ1w2bvPFc/OAp6SxDOrymZ8Ul+NzZ1Aejvj23CcDzGcifqoTprIWVyuFN1cOvhslTlDYhkU9+CKWgZCwjaXRnZ52fGN0A==
   apps:aws-access-key:
-    secure: AAABAM6qwf97lGAFJ9CMpOzh4VQvu7Y8YT1pmgeDQgiSYkPKdpwR7E6nRibJX4VMAHRyLg==
+    secure: AAABAO2BuPEiyNV9K9sxLz7BpgU8f2mS++L+5cvr2cS52HnNghf74CartVMkKX00Mk8VKw==
   apps:aws-secret-key:
-    secure: AAABAO0ct3hXag2Q2uXdock7Rre6GYeQofMYI/6ypH0+xuz51rFZiaz5CQu7WURWNefTGD9C8ZXB0r2Q4IWnZOfYKj5FJGYR
+    secure: AAABAFYpJrkYFTLsYAoAhfl0a14YiVQqt3xBxB2v5EQFrR8kxlM2elMVwPVNIn0U5iWJ/IHWMupK/EAYcCalBfJuUq0dy+N8
   apps:votepeloclima-database-url:
-    secure: AAABAEocGUtKnTCBr1fXo8Z+buxEnVDCRoJ+FoQ02CN9L9DFxL/9xdZa7QcctzG65Ujd2XfreJUW0Vd7VFdxRuQnV0cRQ+dKLAvonRH0/j/Uq7pi0gqV1K8x18VGkINy3yTUd23J0SoGYZq6KsoJMDczfUpLwxMkPtAHI1KLfx28ubOjAvIqAlIo1SmpbOEsGcOY+SQwj23+wg52t4NIVnLOkBkxSG7Os+AH3+3rsiR2eVI8WRlqn8o=
+    secure: AAABADOObBovfK5xj/reYaJWVlDR4t+MZGuu1F9YKOn6b6vPCujKNXb+N2IGyzIWXAWDWqYSKZvE1pBO0hyxMMxvyuJvUK0+3ru4Hg7s4umz8yPAJcqjSdAp/+oUcpnTOE1PqzLWbxdj5K09nThp9VLycIDUxW8iL5R/9AeFWUob9CeY0CsGyRJ8RJoD1XU+20c0krIb7ZMVVlp9BWj4AxB/puwn5yB11YP7iRKrUHj0o2uyQKhpfVQ=
   apps:n8n-database-url:
     secure: AAABAGnApzQ02WiSeF8Yw6HnRPgFw0UUycZwdiRhgyBD/hHO+ZGuGDyX9hDv1ayg3IGWyj19r52zq4Y+CdUojsB90ptoMNhZErc8VBQaKYu+ak1rR1dyadAIsK0fjwjRDxW/7ykVOxdCdWLEBVjmDVxbglTIUWdoFlFHU3sbrYQPInsMg78gqRrbPkqAhjt9O9byAGhDEFbkQAXWBXEv9qFUemVEo4iFLsfOsIuhDsRhhw==
   apps:n8n-smtp-url:
@@ -39,3 +41,9 @@ config:
     secure: AAABAD12oe/KCfZJo75X5Yine9ytuGXE+Nc7GIMw01eSP6d6sH7Wkk6XWOM++iFy8AqtqRHjGrrGUbrw+UyBsnmtlYjjH/M0XNiTFx/qeFAFfD3NYbAbGAOBZ40xRuoNSms4yQZezzgXNxF7h2kUYlHkGrPmYO2EIcuKsKQjf6gGaqEP7beLzLwRBLZ6T7MKrenCgMYB89p0G/Cz
   apps:ghcr-auth:
     secure: AAABAAev7K5ebEwDL4vtxRYovTxDybQ12EkQjcK6ZBSvVRm66vuZ9SB0Q5tGDcmzxQD7U6o08cRnA1wCgpi+N+ymk8BIbRD59Vrm0Lkj7sJW98s=
+  apps:nossas-database-url:
+    secure: AAABAFAoG20Y4jL2MjQOLzcpAyRzztufR2hv+tk/TESfgGI58sAUpJf2sWiiXaD68ON+xBgudMc0iY9iO73BWQjSA6y3x+EVYLqDMMU0Vnu49wMf/20LQsMglAkJThsbgkuoeiN3ssME3CAturjyKLSFA6aEFDdsXt//4MXYsESL7xlbLB8oVnM2xItSukxKN4PG0ajpjGjyoozu31qtHFlZxMjEBTVFhMzIPekXKVjZdA==
+  apps:recaptcha-public-key:
+    secure: AAABAFapoeh5KCDLpCtrkfCNZlugoAaMIVGmSdoWnRfKsJKnAYFwbJlm7Ltl3SXdMIHpqAyMQNzHte5atbZPtPABe6ootQ==
+  apps:recaptcha-private-key:
+    secure: AAABAPIpoTgIq3VXv/AOzZT8J5U0vOojEASR3XCJwLyFM2GBvnDOyGsA0tJDBtM5d1hj+aMsAzCnnq4jUtMpe4awPt4lol6r

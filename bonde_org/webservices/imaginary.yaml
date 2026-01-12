@@ -1,4 +1,5 @@
 # imaginary-config.yaml
+# TODO: Configurar retenção automática dos pods
 name: "imaginary"
 namespace: "bonde-org"
 replicas: 2

@@ -145,6 +145,122 @@
                             ]
                         },
                         {
+                            "match": [
+                                {
+                                    "host": ["nossas.org", "www.nossas.org"]
+                                }
+                            ],
+                            "handle": [
+                                {
+                                    "handler": "reverse_proxy",
+                                    "upstreams": [
+                                        {
+                                            "dial": "cms-nossas:80"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "match": [
+                                {
+                                    "host": ["nossas.org", "www.nossas.org"]
+                                }
+                            ],
+                            "handle": [
+                                {
+                                    "handler": "reverse_proxy",
+                                    "upstreams": [
+                                        {
+                                            "dial": "cms-nossas:80"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "match": [
+                                {
+                                    "host": ["aeleicaodoano.org", "www.aeleicaodoano.org"]
+                                }
+                            ],
+                            "handle": [
+                                {
+                                    "handler": "reverse_proxy",
+                                    "upstreams": [
+                                        {
+                                            "dial": "cms-aeleicaodoano:80"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "match": [
+                                {
+                                    "host": [
+                                        "aeleicaodoano.org.br",
+                                        "www.aeleicaodoano.org.br",
+                                        "aeleicaodoano.com",
+                                        "www.aeleicaodoano.com",
+                                        "aeleicaodoano.com.br",
+                                        "www.aeleicaodoano.com.br"
+                                    ]
+                                }
+                            ],
+                            "handle": [
+                                {
+                                    "handler": "static_response",
+                                    "status_code": 301,
+                                    "headers": {
+                                        "Location": [
+                                            "https://aeleicaodoano.org{uri}"
+                                        ]
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "match": [
+                                {
+                                    "host": ["votepeloclima.org", "www.votepeloclima.org"]
+                                }
+                            ],
+                            "handle": [
+                                {
+                                    "handler": "reverse_proxy",
+                                    "upstreams": [
+                                        {
+                                            "dial": "cms-votepeloclima:80"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "match": [
+                                {
+                                    "host": [
+                                        "votepeloclima.com",
+                                        "www.votepeloclima.com",
+                                        "votepeloclima.com.br",
+                                        "www.votepeloclima.com.br"
+                                    ]
+                                }
+                            ],
+                            "handle": [
+                                {
+                                    "handler": "static_response",
+                                    "status_code": 301,
+                                    "headers": {
+                                        "Location": [
+                                            "https://votepeloclima.org{uri}"
+                                        ]
+                                    }
+                                }
+                            ]
+                        },
+                        {
                             "handle": [
                                 {
                                     "handler": "reverse_proxy",
@@ -164,6 +280,7 @@
             "automation": {
                 "policies": [
                     {
+                        "@id": "tls.automation.core",
                         "issuers": [
                             {
                                 "module": "acme",
@@ -188,6 +305,40 @@
                         ]
                     },
                     {
+                        "@id": "tls.automation.cms",
+                        "issuers": [
+                            {
+                                "module": "acme",
+                                "email": "tech@bonde.org",
+                                "ca": "https://acme-v02.api.letsencrypt.org/directory"
+                            },
+                            {
+                                "module": "acme",
+                                "email": "igor@nossas.org",
+                                "ca": "https://acme.zerossl.com/v2/DV90"
+                            }
+                        ],
+                        "subjects": [
+                            "nossas.org",
+                            "www.nossas.org",
+                            "votepeloclima.org",
+                            "www.votepeloclima.org",
+                            "votepeloclima.com",
+                            "www.votepeloclima.com",
+                            "votepeloclima.com.br",
+                            "www.votepeloclima.com.br",
+                            "aeleicaodoano.org",
+                            "www.aeleicaodoano.org",
+                            "aeleicaodoano.org.br",
+                            "www.aeleicaodoano.org.br",
+                            "aeleicaodoano.com",
+                            "www.aeleicaodoano.com",
+                            "aeleicaodoano.com.br",
+                            "www.aeleicaodoano.com.br"
+                        ]
+                    },
+                    {
+                        "@id": "tls.automation.public-on-demand",
                         "issuers": [
                             {
                                 "module": "acme",

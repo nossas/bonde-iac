@@ -113,6 +113,8 @@ class EKSClusterStack(pulumi.ComponentResource):
                 # Policy to use cloudwatch
                 "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy",
                 "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess",
+                # Policy to use EBS volumes
+                "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy",
             ],
             tags={
                 "Name": f"{name}-nodegroup-role",

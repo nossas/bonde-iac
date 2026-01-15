@@ -261,6 +261,29 @@
                             ]
                         },
                         {
+                            "match": [
+                                {
+                                    "host": [
+                                        "pldadevastacao.com.br",
+                                        "www.pldadevastacao.com.br",
+                                        "pldadevastacao.org.br",
+                                        "www.pldadevastacao.org.br"
+                                    ]
+                                }
+                            ],
+                            "handle": [
+                                {
+                                    "handler": "static_response",
+                                    "status_code": 301,
+                                    "headers": {
+                                        "Location": [
+                                            "https://pldadevastacao.org{uri}"
+                                        ]
+                                    }
+                                }
+                            ]
+                        },
+                        {
                             "handle": [
                                 {
                                     "handler": "reverse_proxy",
@@ -334,7 +357,11 @@
                             "aeleicaodoano.com",
                             "www.aeleicaodoano.com",
                             "aeleicaodoano.com.br",
-                            "www.aeleicaodoano.com.br"
+                            "www.aeleicaodoano.com.br",
+                            "pldadevastacao.org.br",
+                            "www.pldadevastacao.org.br",
+                            "pldadevastacao.com.br",
+                            "www.pldadevastacao.com.br"
                         ]
                     },
                     {

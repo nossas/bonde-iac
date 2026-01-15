@@ -82,6 +82,7 @@ def create_sandbox_env():
         f"{service_name.upper().replace('-', '_')}_URL": f"http://{service_name}:80"
         for service_name in hasura_services.keys()
     }
+    hasura_env_vars["API_UPLOADS_URL"] = "http://api-rest:80/uploads"
 
     hasura_env_vars.update({"N8N_WEBHOOK_URL": "http://n8n:80/webhook"})
 

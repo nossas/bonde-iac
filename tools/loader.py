@@ -6,7 +6,8 @@ from modules.apps.webservice import WebServiceConfig
 
 def load_service_configs(environment: str) -> Dict[str, WebServiceConfig]:
     """Carrega todas as configurações de serviço de um ambiente"""
-    config_dir = f"config/{environment}"
+    # ambientes usam hifen, adaptamos o padrão para módulos Python
+    config_dir = f"{environment.replace("-", "_")}/webservices/"
     services = {}
     
     if not os.path.exists(config_dir):

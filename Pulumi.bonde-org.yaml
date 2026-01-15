@@ -1,0 +1,49 @@
+config:
+  aws:region: us-east-1
+  infra-eks:environment: bonde-org
+  apps:bonde-database-url:
+    secure: AAABABpAkFgJ/fbv+SscBAsxtFw8b4Jzd9AxNpD24duN8GAoX0YgTY0LRikKSUm+LfLDYt/CTJRHMQlEOMUVLwttaBiFml1EdkGa5wAHrAfX9kyiuFcAk2tRpTwM+XHlh8FNoJ0OD2ZzFAmTiVhrgvru8q7X8sIVmRirGvYAbE1av1clbsmnLJ++8WQ0LoVAFfxPw6Eu8NljyG54nZqWlKUg+3ILxJ8VwEjVFHgKdh8x
+  apps:bonde-database-url-v2:
+    secure: AAABAI0+b5600CA+9klid/VLjW6hSbM50f5uMIMPonVXht9qAxEZuQU0b8XfDOGOHzsJWFREfDAbCWr0wwkiPVgX1lALkdLMclgQeINXMcUVE66SotnmsQNf4B1bCsQliikfVBvL6J0MF0Aej5iRunaNhzRxMyAZcwS04WOUsNAhcL5v59pudolG7nABvMHSUIPF/jSkzkHd6E+PMri+8YbamjA5wFKmGpHaxe+usTnMHR8=
+  apps:aeleicaodoano-database-url:
+    secure: AAABALp+o1ML2uAEPviFv8/7NLTlr3toNp6Zmu4fgP9TXIJpGRJRzHRQGueBZ4Gx1OMh3ti7vmL8ug1fygMehqZgoa2FmaClmeqEuYFYqLFhbjNgSB7OPfTt5VXlApOsROgXsl7OEE9CuQ1w2bvPFc/OAp6SxDOrymZ8Ul+NzZ1Aejvj23CcDzGcifqoTprIWVyuFN1cOvhslTlDYhkU9+CKWgZCwjaXRnZ52fGN0A==
+  apps:aws-access-key:
+    secure: AAABAO2BuPEiyNV9K9sxLz7BpgU8f2mS++L+5cvr2cS52HnNghf74CartVMkKX00Mk8VKw==
+  apps:aws-secret-key:
+    secure: AAABAFYpJrkYFTLsYAoAhfl0a14YiVQqt3xBxB2v5EQFrR8kxlM2elMVwPVNIn0U5iWJ/IHWMupK/EAYcCalBfJuUq0dy+N8
+  apps:votepeloclima-database-url:
+    secure: AAABADOObBovfK5xj/reYaJWVlDR4t+MZGuu1F9YKOn6b6vPCujKNXb+N2IGyzIWXAWDWqYSKZvE1pBO0hyxMMxvyuJvUK0+3ru4Hg7s4umz8yPAJcqjSdAp/+oUcpnTOE1PqzLWbxdj5K09nThp9VLycIDUxW8iL5R/9AeFWUob9CeY0CsGyRJ8RJoD1XU+20c0krIb7ZMVVlp9BWj4AxB/puwn5yB11YP7iRKrUHj0o2uyQKhpfVQ=
+  apps:n8n-database-url:
+    secure: AAABAGnApzQ02WiSeF8Yw6HnRPgFw0UUycZwdiRhgyBD/hHO+ZGuGDyX9hDv1ayg3IGWyj19r52zq4Y+CdUojsB90ptoMNhZErc8VBQaKYu+ak1rR1dyadAIsK0fjwjRDxW/7ykVOxdCdWLEBVjmDVxbglTIUWdoFlFHU3sbrYQPInsMg78gqRrbPkqAhjt9O9byAGhDEFbkQAXWBXEv9qFUemVEo4iFLsfOsIuhDsRhhw==
+  apps:n8n-smtp-url:
+    secure: AAABABOOkAxzeBbgfndmEazMdDgryskPfk4rcN/UI486X798dG0o6cIxU3xeg7eroZ7M7UgUoOD1wuXuZ6fVB7JY/OlMnX2JItSObXiI2xV+QwMEYA6Ky9g5ymxpxtB1Ht/VhyNFDYwh3hcjneIEi7VthF0QFCIVMpnVPvUrXcskih9Wb9N56Nk=
+  apps:n8n-webhook-secret:
+    secure: AAABAHNZ1TWahHkk83RR2KbO4jLk9gieiVu/Tsgd0Ik5g3bvXYnxMIrJS0Jd/xhgPwvrA5lSaT+otA==
+  apps:action-secret:
+    secure: AAABAErwgaLhcAwG7VM2uvov3p8ET03bjn1ZJC+Idv8o2jMXoiZ+oFpqVfbIFLWyHTlNTdF/3FYriMwyGYmypUsy1KI=
+  apps:hasura-admin-secret:
+    secure: AAABAKse0gYfecnfMJVPJQbXx7kofEgk7CfvaL5j+mkLPLauREp5MdvHtybi1qPXX+TJdGB71e5+bEyxaOqJcg==
+  apps:pagarme-key:
+    secure: AAABAEVpqzSDWaNxc6OZJiEI8mzf8pLoaZ0f5JCOR0BoQC7bV/SWbWHnD1Fx6thC9kTjbaGKPjiktOAQTCfeTiDi7q24BQ==
+  apps:jwt-secret:
+    secure: AAABAEXj984+X4wzFD7ube7KpwqjNjiShQSX1poAzJpU8pud+Zm10EpBipJ3DfMnvxfptW5W0O8ybxdwcLwP+w==
+  apps:elasticsearch-cloud-id:
+    secure: AAABAEg9YnytR/xdKbRQgQ6o0+bLUITBvMVm4xekw/ffqb0Sv8uFB24foqZfWQLT/HYrGWKKbh5hrWFBxWlkb7m1uUi3CNiZ5Mntc++b/anD/ZpI72dQdXgfJeYHHin/WnVheRbCK+J359Cmn9tlgI93Tw8s/jWLtlfmccDkGAgg6vo7PvLRjsii8/UJuaTe/93+zOETudMcmDkKP4U=
+  apps:elasticsearch-password:
+    secure: AAABAB3cHFqaP/yIr6FSAJs5CWfzmfiJ1Ae7mMI+57+V/OkDkBSE1970fUVk1rPsw4IcDh+RfEs=
+  apps:elastic-apm-secret-token:
+    secure: AAABAMFvg+N0E2FtapV3bziC2bIavxV4WyeL8wa4RqIAvj18/r6MgzFawRWJG/O5lwI=
+  apps:elastic-apm-server-url:
+    secure: AAABAJWc81VJLY4lz5oJFZgtAgIa8rmghfWyDoZa1q6yuT2orWgnOTx5ohkndudmiw1HbstTpNUkK/rOEPpmm95llsvz3lMBPzMzq/fi8mPmEIrlyFXq+dFlUJc4FtlN6pF6quJhpANygA==
+  apps:sendgrid-api-key:
+    secure: AAABAJEyPxnn6J+9jtOTnT2b/KF7qWxTPg/JcFyWX/UNu8tKeQlJLDP1lr+kC5KXjSttM8XtgXMkJgC97w5E3kR7QzgL60B4HILUlDwT5gq1tLCvDnyqjco2HrCX8HoGJ5KoM+I=
+  apps:sendgrid-webhook-key:
+    secure: AAABAD12oe/KCfZJo75X5Yine9ytuGXE+Nc7GIMw01eSP6d6sH7Wkk6XWOM++iFy8AqtqRHjGrrGUbrw+UyBsnmtlYjjH/M0XNiTFx/qeFAFfD3NYbAbGAOBZ40xRuoNSms4yQZezzgXNxF7h2kUYlHkGrPmYO2EIcuKsKQjf6gGaqEP7beLzLwRBLZ6T7MKrenCgMYB89p0G/Cz
+  apps:ghcr-auth:
+    secure: AAABAAev7K5ebEwDL4vtxRYovTxDybQ12EkQjcK6ZBSvVRm66vuZ9SB0Q5tGDcmzxQD7U6o08cRnA1wCgpi+N+ymk8BIbRD59Vrm0Lkj7sJW98s=
+  apps:nossas-database-url:
+    secure: AAABAFAoG20Y4jL2MjQOLzcpAyRzztufR2hv+tk/TESfgGI58sAUpJf2sWiiXaD68ON+xBgudMc0iY9iO73BWQjSA6y3x+EVYLqDMMU0Vnu49wMf/20LQsMglAkJThsbgkuoeiN3ssME3CAturjyKLSFA6aEFDdsXt//4MXYsESL7xlbLB8oVnM2xItSukxKN4PG0ajpjGjyoozu31qtHFlZxMjEBTVFhMzIPekXKVjZdA==
+  apps:recaptcha-public-key:
+    secure: AAABAFapoeh5KCDLpCtrkfCNZlugoAaMIVGmSdoWnRfKsJKnAYFwbJlm7Ltl3SXdMIHpqAyMQNzHte5atbZPtPABe6ootQ==
+  apps:recaptcha-private-key:
+    secure: AAABAPIpoTgIq3VXv/AOzZT8J5U0vOojEASR3XCJwLyFM2GBvnDOyGsA0tJDBtM5d1hj+aMsAzCnnq4jUtMpe4awPt4lol6r

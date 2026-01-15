@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        stack: [shared, sandbox]
+        stack: [shared, sandbox, bonde-org]
 
     steps:
       - uses: actions/checkout@v4

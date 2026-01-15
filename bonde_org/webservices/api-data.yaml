@@ -1,5 +1,5 @@
 name: "api-data"
-namespace: "sandbox"
+namespace: "bonde-org"
 replicas: 1
 container:
   image: "nossas/bonde-an-web-fastapi:latest"
@@ -14,14 +14,14 @@ container:
   liveness_probe_path: null
   readiness_probe_path: null
   env_from_secret:
-    DATABASE_URL: "bonde-database-url"
+    DATABASE_URL: "bonde-database-url-v2"
   resources:
     requests:
-      memory: "100Mi"
-      cpu: "20m"
+      memory: "200Mi"
+      cpu: "50m"
     limits:
-      memory: "250Mi"
-      cpu: "100m"
+      memory: "500Mi"
+      cpu: "200m"
 service:
   type: "ClusterIP"
   port: 80

@@ -108,24 +108,44 @@ class WebService(pulumi.ComponentResource):
         # Probes
         probes = {}
         if self.config.container.liveness_probe_path:
-            probes["liveness_probe"] = k8s.core.v1.ProbeArgs(
-                http_get=k8s.core.v1.HTTPGetActionArgs(
-                    path=self.config.container.liveness_probe_path,
-                    port=self.config.container.port,
-                ),
-                initial_delay_seconds=30,
-                period_seconds=10,
-            )
+            # redis não possui HTTP, então fazemos uma verificação usando TCP
+            if self.config.labels.get("app") == "redis":
+                probes["liveness_probe"] = k8s.core.v1.ProbeArgs(
+                    tcp_socket=k8s.core.v1.TCPSocketActionArgs(
+                        port=self.config.container.port
+                    ),
+                    initial_delay_seconds=30,
+                    period_seconds=10,
+                )
+            else:    
+                probes["liveness_probe"] = k8s.core.v1.ProbeArgs(
+                    http_get=k8s.core.v1.HTTPGetActionArgs(
+                        path=self.config.container.liveness_probe_path,
+                        port=self.config.container.port,
+                    ),
+                    initial_delay_seconds=30,
+                    period_seconds=10,
+                )
 
         if self.config.container.readiness_probe_path:
-            probes["readiness_probe"] = k8s.core.v1.ProbeArgs(
-                http_get=k8s.core.v1.HTTPGetActionArgs(
-                    path=self.config.container.readiness_probe_path,
-                    port=self.config.container.port,
-                ),
-                initial_delay_seconds=5,
-                period_seconds=5,
-            )
+            # redis não possui HTTP, então fazemos uma verificação usando TCP
+            if self.config.labels.get("app") == "redis":
+                probes["readiness_probe"] = k8s.core.v1.ProbeArgs(
+                    tcp_socket=k8s.core.v1.TCPSocketActionArgs(
+                        port=self.config.container.port
+                    ),
+                    initial_delay_seconds=5,
+                    period_seconds=5,
+                )
+            else:
+                probes["readiness_probe"] = k8s.core.v1.ProbeArgs(
+                    http_get=k8s.core.v1.HTTPGetActionArgs(
+                        path=self.config.container.readiness_probe_path,
+                        port=self.config.container.port,
+                    ),
+                    initial_delay_seconds=5,
+                    period_seconds=5,
+                )
 
         deployment = k8s.apps.v1.Deployment(
             f"{self.config.name}-deployment",

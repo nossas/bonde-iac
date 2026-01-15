@@ -1,5 +1,6 @@
 import pulumi
 import pulumi_kubernetes as k8s
+from typing import Optional, Dict
 
 
 class OnDemandService(pulumi.ComponentResource):
@@ -13,6 +14,10 @@ class OnDemandService(pulumi.ComponentResource):
         namespace: str,
         k8s_provider,
         environment: str,
+        resources: Optional[Dict[str, any]] = dict(
+            requests={"memory": "100Mi", "cpu": "5m"},
+            limits={"memory": "200Mi", "cpu": "25m"},
+        ),
         opts=None,
     ):
         super().__init__("custom:app:OnDemandService", name, None, opts)
@@ -66,8 +71,8 @@ class OnDemandService(pulumi.ComponentResource):
                                     # ),
                                 ],
                                 resources=k8s.core.v1.ResourceRequirementsArgs(
-                                    requests={"memory": "64Mi", "cpu": "50m"},
-                                    limits={"memory": "128Mi", "cpu": "100m"},
+                                    requests=resources.get("requests"),
+                                    limits=resources.get("limits"),
                                 ),
                                 # Probes para healthz da aplicação
                                 liveness_probe=k8s.core.v1.ProbeArgs(
@@ -121,8 +126,23 @@ class OnDemandService(pulumi.ComponentResource):
         self.service_url = f"http://{name}.{namespace}.svc.cluster.local"
 
 
-def create_on_demand_service(name: str, namespace: str, k8s_provider, environment: str):
+def create_on_demand_service(
+    name: str,
+    namespace: str,
+    k8s_provider,
+    environment: str,
+    resources: Optional[Dict[str, any]] = dict(
+        requests={"memory": "100Mi", "cpu": "5m"},
+        limits={"memory": "200Mi", "cpu": "25m"},
+    ),
+):
     """
     Cria o serviço on-demand básico
     """
-    return OnDemandService(name, namespace, k8s_provider, environment)
+    return OnDemandService(
+        name=name,
+        namespace=namespace,
+        k8s_provider=k8s_provider,
+        environment=environment,
+        resources=resources,
+    )

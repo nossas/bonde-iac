@@ -55,6 +55,7 @@ class HasuraGateway(pulumi.ComponentResource):
             "HASURA_GRAPHQL_CORS_DOMAIN": "*",
             "HASURA_GRAPHQL_INFER_FUNCTION_PERMISSIONS": "false",
             "PORT": "8080",
+            "N8N_WEBHOOK_TRIGGER_POSTGRES_URL": "http://n8n:80/webhook/trigger-postgres"
         }
 
         # Adicionar variáveis fixas

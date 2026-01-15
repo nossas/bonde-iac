@@ -1,0 +1,393 @@
+{
+    "apps": {
+        "http": {
+            "servers": {
+                "srv0": {
+                    "listen": [
+                        ":80",
+                        ":443"
+                    ],
+                    "routes": [
+                        {
+                            "match": [
+                                {
+                                    "host": ["accounts.bonde.org"]
+                                }
+                            ],
+                            "handle": [
+                                {
+                                    "handler": "reverse_proxy",
+                                    "upstreams": [
+                                        {
+                                            "dial": "client-accounts:80"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "match": [
+                                {
+                                    "host": ["admin-canary.bonde.org"]
+                                }
+                            ],
+                            "handle": [
+                                {
+                                    "handler": "reverse_proxy",
+                                    "upstreams": [
+                                        {
+                                            "dial": "client-canary:80"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "match": [
+                                {
+                                    "host": ["api-data.bonde.org"]
+                                }
+                            ],
+                            "handle": [
+                                {
+                                    "handler": "reverse_proxy",
+                                    "upstreams": [
+                                        {
+                                            "dial": "api-data:80"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "match": [
+                                {
+                                    "host": ["api-graphql.bonde.org"]
+                                }
+                            ],
+                            "handle": [
+                                {
+                                    "handler": "reverse_proxy",
+                                    "upstreams": [
+                                        {
+                                            "dial": "api-graphql:80"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "match": [
+                                {
+                                    "host": ["api-rest.bonde.org"]
+                                }
+                            ],
+                            "handle": [
+                                {
+                                    "handler": "reverse_proxy",
+                                    "upstreams": [
+                                        {
+                                            "dial": "api-rest:80"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "match": [
+                                {
+                                    "host": ["app.bonde.org"]
+                                }
+                            ],
+                            "handle": [
+                                {
+                                    "handler": "reverse_proxy",
+                                    "upstreams": [
+                                        {
+                                            "dial": "client-admin:80"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "match": [
+                                {
+                                    "host": ["imaginary.bonde.org"]
+                                }
+                            ],
+                            "handle": [
+                                {
+                                    "handler": "reverse_proxy",
+                                    "upstreams": [
+                                        {
+                                            "dial": "imaginary:9000"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "match": [
+                                {
+                                    "host": ["n8n.bonde.org"]
+                                }
+                            ],
+                            "handle": [
+                                {
+                                    "handler": "reverse_proxy",
+                                    "upstreams": [
+                                        {
+                                            "dial": "n8n:80"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "match": [
+                                {
+                                    "host": ["nossas.org", "www.nossas.org"]
+                                }
+                            ],
+                            "handle": [
+                                {
+                                    "handler": "reverse_proxy",
+                                    "upstreams": [
+                                        {
+                                            "dial": "cms-nossas:80"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "match": [
+                                {
+                                    "host": ["nossas.org", "www.nossas.org"]
+                                }
+                            ],
+                            "handle": [
+                                {
+                                    "handler": "reverse_proxy",
+                                    "upstreams": [
+                                        {
+                                            "dial": "cms-nossas:80"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "match": [
+                                {
+                                    "host": ["aeleicaodoano.org", "www.aeleicaodoano.org"]
+                                }
+                            ],
+                            "handle": [
+                                {
+                                    "handler": "reverse_proxy",
+                                    "upstreams": [
+                                        {
+                                            "dial": "cms-aeleicaodoano:80"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "match": [
+                                {
+                                    "host": [
+                                        "aeleicaodoano.org.br",
+                                        "www.aeleicaodoano.org.br",
+                                        "aeleicaodoano.com",
+                                        "www.aeleicaodoano.com",
+                                        "aeleicaodoano.com.br",
+                                        "www.aeleicaodoano.com.br"
+                                    ]
+                                }
+                            ],
+                            "handle": [
+                                {
+                                    "handler": "static_response",
+                                    "status_code": 301,
+                                    "headers": {
+                                        "Location": [
+                                            "https://aeleicaodoano.org{uri}"
+                                        ]
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "match": [
+                                {
+                                    "host": ["votepeloclima.org", "www.votepeloclima.org"]
+                                }
+                            ],
+                            "handle": [
+                                {
+                                    "handler": "reverse_proxy",
+                                    "upstreams": [
+                                        {
+                                            "dial": "cms-votepeloclima:80"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "match": [
+                                {
+                                    "host": [
+                                        "votepeloclima.com",
+                                        "www.votepeloclima.com",
+                                        "votepeloclima.com.br",
+                                        "www.votepeloclima.com.br"
+                                    ]
+                                }
+                            ],
+                            "handle": [
+                                {
+                                    "handler": "static_response",
+                                    "status_code": 301,
+                                    "headers": {
+                                        "Location": [
+                                            "https://votepeloclima.org{uri}"
+                                        ]
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "match": [
+                                {
+                                    "host": [
+                                        "pldadevastacao.com.br",
+                                        "www.pldadevastacao.com.br",
+                                        "pldadevastacao.org.br",
+                                        "www.pldadevastacao.org.br"
+                                    ]
+                                }
+                            ],
+                            "handle": [
+                                {
+                                    "handler": "static_response",
+                                    "status_code": 301,
+                                    "headers": {
+                                        "Location": [
+                                            "https://pldadevastacao.org{uri}"
+                                        ]
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "handle": [
+                                {
+                                    "handler": "reverse_proxy",
+                                    "upstreams": [
+                                        {
+                                            "dial": "public:80"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        },
+        "tls": {
+            "automation": {
+                "policies": [
+                    {
+                        "@id": "tls.automation.core",
+                        "issuers": [
+                            {
+                                "module": "acme",
+                                "email": "tech@bonde.org",
+                                "ca": "https://acme-v02.api.letsencrypt.org/directory"
+                            },
+                            {
+                                "module": "acme",
+                                "email": "igor@nossas.org",
+                                "ca": "https://acme.zerossl.com/v2/DV90"
+                            }
+                        ],
+                        "subjects": [
+                            "accounts.bonde.org",
+                            "admin-canary.bonde.org",
+                            "api-data.bonde.org",
+                            "api-graphql.bonde.org",
+                            "api-rest.bonde.org",
+                            "app.bonde.org",
+                            "imaginary.bonde.org",
+                            "n8n.bonde.org"
+                        ]
+                    },
+                    {
+                        "@id": "tls.automation.cms",
+                        "issuers": [
+                            {
+                                "module": "acme",
+                                "email": "tech@bonde.org",
+                                "ca": "https://acme-v02.api.letsencrypt.org/directory"
+                            },
+                            {
+                                "module": "acme",
+                                "email": "igor@nossas.org",
+                                "ca": "https://acme.zerossl.com/v2/DV90"
+                            }
+                        ],
+                        "subjects": [
+                            "nossas.org",
+                            "www.nossas.org",
+                            "votepeloclima.org",
+                            "www.votepeloclima.org",
+                            "votepeloclima.com",
+                            "www.votepeloclima.com",
+                            "votepeloclima.com.br",
+                            "www.votepeloclima.com.br",
+                            "aeleicaodoano.org",
+                            "www.aeleicaodoano.org",
+                            "aeleicaodoano.org.br",
+                            "www.aeleicaodoano.org.br",
+                            "aeleicaodoano.com",
+                            "www.aeleicaodoano.com",
+                            "aeleicaodoano.com.br",
+                            "www.aeleicaodoano.com.br",
+                            "pldadevastacao.org.br",
+                            "www.pldadevastacao.org.br",
+                            "pldadevastacao.com.br",
+                            "www.pldadevastacao.com.br"
+                        ]
+                    },
+                    {
+                        "@id": "tls.automation.public-on-demand",
+                        "issuers": [
+                            {
+                                "module": "acme",
+                                "email": "tech@bonde.org",
+                                "ca": "https://acme-v02.api.letsencrypt.org/directory"
+                            },
+                            {
+                                "module": "acme",
+                                "email": "igor@nossas.org",
+                                "ca": "https://acme.zerossl.com/v2/DV90"
+                            }
+                        ],
+                        "on_demand": true
+                    }
+                ],
+                "on_demand": {
+                    "permission": {
+                        "module": "http",
+                        "endpoint": "http://on-demand:80/verify"
+                    }
+                }
+            }
+        }
+    }
+}

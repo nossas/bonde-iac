@@ -1,0 +1,33 @@
+name: "api-data"
+namespace: "sandbox"
+replicas: 1
+container:
+  image: "nossas/bonde-an-web-fastapi:latest"
+  command: 
+    - "uvicorn"
+    - "main:app"
+    - "--host"
+    - "0.0.0.0"
+    - "--port"
+    - "8000"
+  port: 8000
+  liveness_probe_path: null
+  readiness_probe_path: null
+  env_from_secret:
+    DATABASE_URL: "bonde-database-url-v2"
+  resources:
+    requests:
+      memory: "100Mi"
+      cpu: "20m"
+    limits:
+      memory: "250Mi"
+      cpu: "100m"
+service:
+  type: "ClusterIP"
+  port: 80
+  target_port: 8000
+ingress:
+  enabled: false
+labels:
+  component: "backend"
+  app: "api-data"

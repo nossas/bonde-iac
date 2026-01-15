@@ -1,0 +1,31 @@
+name: "client-admin"
+namespace: "sandbox"
+replicas: 1
+container:
+  # FIXME: Váriaveis de ambiente não são boas opções para projetos client-side com React e NodeJS
+  image: "nossas/bonde-clients:feature-migrate-api-rest-to-graphql"
+  image_pull_policy: "Always"
+  command: 
+    - "pnpm"
+    - "--filter"
+    - "admin-client"
+    - "start"
+  port: 5000
+  liveness_probe_path: null
+  readiness_probe_path: null
+  resources:
+    requests:
+      memory: "50Mi"
+      cpu: "5m"
+    limits:
+      memory: "150Mi"
+      cpu: "50m"
+service:
+  type: "ClusterIP"
+  port: 80
+  target_port: 5000
+ingress:
+  enabled: false
+labels:
+  component: "frontend"
+  app: "client-admin"

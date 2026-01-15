@@ -8,9 +8,9 @@ config:
   apps:action-secret:
     secure: AAABAKg/a+sXdA/p/zqfBzkCG/OMDXK6bNVGDLWjh+J81tD8Xk3wibW2wAHH/06kr9qYal31owg6CeMjZGZ3O+kzwQA=
   apps:aws-access-key:
-    secure: AAABABfzlZe8UiqYz3YTgMxuuAOlUaihU/rBhJDrfeYkaYkHNxYV03LpyAvsIoyT+ghHww==
+    secure: AAABAHi/DylO+pPLDdbE7glpNaDhuSp2KARXD1hfFexKQpNiZcqSOOlX9T5o5A0NXntCMA==
   apps:aws-secret-key:
-    secure: AAABAO4g3mlcxPnHQR00bRl1e0y5ZWgL/JaztZmkdEUM4V+tkehkkpXibrxaAA5eOfUbcJ3v9AxufWH32ORsRcEq0wzXjNDI
+    secure: AAABAJXDqa30MIXofUiQv2JvvmqUPVe7NyqyhL0ocZKwm3nWatkqC1ug8yx21kSRogD3yacRRpaG830cwUteYILkmusTOb5m
   apps:jwt-secret:
     secure: AAABAO4AwZUf2zBr4u4bYPqmrUWiBSX+53ozpjoWVhLN9RuKQWr+2UpbHrsDDZU1wHAVJ69pSHbXoF1o80I8zg==
   apps:elasticsearch-cloud-id:
@@ -37,3 +37,13 @@ config:
     secure: AAABALgGaAfJCkbpCUAff2+Zk3nN+GDEm7v4L9AQxcF5luaZ2KEt/A==
   apps:ghcr-auth:
     secure: AAABAIntPqq17jpM0IISqY+DIHdcm7Qw37OWdTO7eqpsIPCmf3f01Ew+igdl432+FB+r2grf12jwU1uRHU6desz1LLldTU5iEBRTLSA5UF19ZZo=
+  apps:bonde-database-url-v2:
+    secure: AAABAExjZX/XL2ekJqboVIRhTZKtC3V2046hbvbJu/o41AW439OJefmjQDRq4PsrwWOT/WZXw9lHzyGEIWKBfRm9OM3m9vG6rt3PcZRD8/x7AVuKL659mnBZLsXbHOUdxfh7mLt8V7AUynf2lOx1b+g+CqsPzvCSm/C+RpbT1dptFw8CzZ03B2tNYEenKurrQrGrbIN3iGuA93hUzc3xOuRvkhiEMM1+K2PggSwtSIiP2aA=
+  apps:nossas-database-url:
+    secure: AAABAJ4ujiPfdFkkOBJbwRkiaNVtBgebdQkD6SuJO1g=
+  apps:aeleicaodoano-database-url:
+    secure: AAABAJGNqe6jomCE4ri5vIGwnC4S5BmLMEnT8JFfDDo=
+  apps:recaptcha-public-key:
+    secure: AAABAEyiBywJMuQhodIVqE9IVQsLIqQq/xlERwnmoG4=
+  apps:recaptcha-private-key:
+    secure: AAABAFn9355XDyJg4CGOq7zIbKacYr9aYxhMUh2b8vE=

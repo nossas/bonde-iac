@@ -1,0 +1,38 @@
+name: "api-payments" # TODO: Remover serviço api-payments em desuso.
+namespace: "bonde-org"
+replicas: 1
+container:
+  image: "nossas/bonde-apis:latest"
+  command: 
+    - "pnpm"
+    - "--filter"
+    - "payments-api"
+    - "start"
+  port: 3000
+  liveness_probe_path: null
+  readiness_probe_path: null
+  env:
+    HOST: "0.0.0.0"
+    PORT: "3000"
+    NODE_ENV: "development"
+    GRAPHQL_HTTP_URL: "http://api-graphql:80/v1/graphql"
+  env_from_secret:
+    JWT_SECRET: "jwt-secret"
+    HASURA_SECRET: "hasura-admin-secret"
+    PAGARME_API_KEY: "pagarme-key"
+  resources:
+    requests:
+      memory: "200Mi"
+      cpu: "50m"
+    limits:
+      memory: "500Mi"
+      cpu: "200m"
+service:
+  type: "ClusterIP"
+  port: 80
+  target_port: 3000
+ingress:
+  enabled: false
+labels:
+  component: "backend"
+  app: "api-payments"

@@ -22,10 +22,10 @@ elif stack_name == "sandbox":
     
     create_sandbox_env()
 
-elif stack_name == "production":
-    # from production import create_production_env
-    # create_production_env()
-    pass
+elif stack_name == "bonde-org":
+    from bonde_org import create_bonde_org_env
+    
+    create_bonde_org_env()
 
 else:
     raise ValueError(f"Stack desconhecido: {stack_name}")

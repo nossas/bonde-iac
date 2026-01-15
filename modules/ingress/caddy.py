@@ -2,8 +2,10 @@ import pulumi
 import pulumi_aws as aws
 import pulumi_kubernetes as k8s
 import os
+from typing import Dict, Optional
 
 
+# TODO: Persistir certificados gerenciados pelo Caddy em um bucket S3.
 class CaddyStack(pulumi.ComponentResource):
     """
     CaddyStack implementa o Caddy como proxy reverso multi-tenant com LoadBalancer automático.
@@ -15,6 +17,10 @@ class CaddyStack(pulumi.ComponentResource):
         namespace: str,
         k8s_provider,
         environment: str,
+        resources: Optional[Dict[str, any]] = dict(
+            requests={"memory": "100Mi", "cpu": "5m"},
+            limits={"memory": "200Mi", "cpu": "25m"},
+        ),
         opts=None,
     ):
         super().__init__("custom:caddy:CaddyStack", name, None, opts)
@@ -99,12 +105,14 @@ class CaddyStack(pulumi.ComponentResource):
                                         name="caddy-config", mount_path="/etc/caddy"
                                     ),
                                     k8s.core.v1.VolumeMountArgs(
-                                        name="caddy-data", mount_path="/data"
+                                        name="caddy-data",
+                                        mount_path="/data",
+                                        sub_path=namespace,
                                     ),
                                 ],
                                 resources=k8s.core.v1.ResourceRequirementsArgs(
-                                    requests={"memory": "64Mi", "cpu": "50m"},
-                                    limits={"memory": "128Mi", "cpu": "100m"},
+                                    requests=resources.get("requests", {}),
+                                    limits=resources.get("limits", {}),
                                 ),
                             )
                         ],
@@ -139,6 +147,11 @@ class CaddyStack(pulumi.ComponentResource):
                     "service.beta.kubernetes.io/aws-load-balancer-type": "nlb",  # ou "elb"
                     "service.beta.kubernetes.io/aws-load-balancer-scheme": "internet-facing",
                     "service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled": "true",
+                    # ANOTAÇÃO CRÍTICA - Adiciona tag única para cada ambiente
+                    "service.beta.kubernetes.io/aws-load-balancer-attributes": (
+                        f"load_balancing.cross_zone.enabled=true,"
+                        f"tags=Environment={environment},Namespace={namespace}"
+                    ),
                 },
             ),
             spec=k8s.core.v1.ServiceSpecArgs(
@@ -171,7 +184,16 @@ class CaddyStack(pulumi.ComponentResource):
         )
 
 
-def create_caddy(name: str, namespace: str, k8s_provider, environment: str):
+def create_caddy(
+    name: str,
+    namespace: str,
+    k8s_provider,
+    environment: str,
+    resources: Optional[Dict[str, any]] = dict(
+        requests={"memory": "100Mi", "cpu": "5m"},
+        limits={"memory": "200Mi", "cpu": "25m"},
+    ),
+):
     """
     Cria o Caddy para um ambiente específico com LoadBalancer automático.
 
@@ -179,6 +201,6 @@ def create_caddy(name: str, namespace: str, k8s_provider, environment: str):
         name: Nome do componente
         namespace: Namespace Kubernetes
         k8s_provider: Provider Kubernetes
-        environment: 'sandbox' ou 'production'
+        environment: 'sandbox' ou 'bonde-org'
     """
-    return CaddyStack(name, namespace, k8s_provider, environment)
+    return CaddyStack(name, namespace, k8s_provider, environment, resources)
